@@ -1,0 +1,23 @@
+{% extends "get_weather/base.htm" %}
+
+{% block title %} Hourly forecast. {% endblock %}
+{% block header %}Hourly forecast for Boulder Co.{% endblock %}
+{% block main %}
+
+<section>
+<table>
+<tr>
+<th> Hour:</th>
+<th>Temperature:</th>
+<th> Chance of precipitation. </th>
+</tr>
+{% for i in forecasted %}
+<tr>
+<th>{{i.0|time:"P"|capfirst}}</th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
+</tr>
+{% empty %}
+<tr><td></td>No weather data at this time! Sorry.</td></tr>
+{% endfor %}
+</table>
+</section>
+{% endblock %}

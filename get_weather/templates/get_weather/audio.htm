@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <script src="flocking"></script>
+        <title> Weather for Boulder Co sonifyed.</title>
+    </head>
+    <body>
+    <p id="h" aria-live="polite"></p>
+    <script>
+        var ct = [
+            {% for i in hourly.data %}
+                {{ i.temperature}}
+                {% if hourly.data|length|add:-1 != i %}
+                    ,
+                {% endif %}
+            {% endfor %}
+        ];
+        {% verbatim %}
+        var synth = flock.synth({
+            synthDef:{
+                ugen : "flock.ugen.sin",
+                freq : {
+                    ugen:"flock.ugen.value",
+                    value:300,
+                    add:{
+                        ugen:"flock.ugen.sequence",
+                        freq:1,
+                        list:ct,
+                        mul:5
+                        }
+                    }
+            }
+        });
+        var enviro = flock.init();
+        synth.play();
+        
+        var index=0;
+        setInterval(function(){
+            if(index==ct.length){
+                synth.pause();
+                document.getElementById("h").innerHTML="done";
+                clearInterval();
+            }
+            document.getElementById("h").innerHTML=""+ct[index++];
+        },1000);
+        {% endverbatim %}
+        
+    </script>
+    
+    </body>
+</html>

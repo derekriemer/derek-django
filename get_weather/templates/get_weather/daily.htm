@@ -1,0 +1,15 @@
+{% extends "get_weather/base.htm" %}
+
+{% block title %} Daily forecast. {% endblock %}
+{% block main %}
+{% block header %}Daily forecast for Boulder Co.{% endblock %}
+<section>
+
+{% for i in forecasted %}
+{{i}}
+<hr/>
+{% empty %}
+No weather data at this time! Sorry.
+{% endfor %}
+</section>
+{% endblock %}
