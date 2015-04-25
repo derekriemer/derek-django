@@ -1,21 +1,32 @@
+<!doctype HTML>
 <html>
 <head>
 <title> {% block title %} {% endblock %} </title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 {% block files %}
 
 {% endblock %}
 </head>
 <body>
+<div class="container-fluid">
 {% include "get_weather/menu.htm" %}
-<div role="main" id="main">
+<div role="main" id="main" class="row">
 <h1 id="skip">{% block header %} {% endblock %}</h1>
 {% block main %}
 
 {% endblock %}</div>
-<footer style="width:100%;height:20%;top:80%;">
+<footer class="row">
 Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
 This project is powered by django, the awesome web platform that makes python even more awesome than it already is.
 This website is Copyright &copy; Derek riemer 2015 under a  creative commons license. Any attribution should be made to Derek Riemer, and the Django project if necessary. Django is an open sourced project run by the Django Foundation &trade;. More info can be found <a href="https://www.djangoproject.com/"> At the Django website.</a>. 
 </footer>
+</div>
 </body>
 </html>
