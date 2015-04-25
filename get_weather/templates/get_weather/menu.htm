@@ -1,6 +1,8 @@
 <nav>
-<a href="#skip"> Skip to main content</a>
-<a href={% url 'weather:home' %}>home</a>
-<a href={% url 'weather:daily' %}> Daily forecast.</a>
-<a href={% url 'weather:hourly' %}>Hourly forecast.</a>
+<ul class="nav nav-pills nav-justified">
+<li role="presentation" class="active"> <a href="#skip"> Skip to main content</a> </li>
+<li role="presentation" class="active"> <a href={% url 'weather:home' %}>home</a> </li>
+<li role="presentation" class="active"> <a href={% url 'weather:daily' %}> Daily forecast.</a> </li>
+<li role="presentation" class="active"> <a href={% url 'weather:hourly' %}>Hourly forecast.</a> </li>
+</ul>
 </nav>
