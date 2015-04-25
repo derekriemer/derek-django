@@ -4,8 +4,8 @@
 {% block header %}Hourly forecast for Boulder Co.{% endblock %}
 {% block main %}
 
-<section>
-<table>
+
+<table style="position:absolute;width:100%;height:80%;border:10px;">
 <tr>
 <th> Hour:</th>
 <th>Temperature:</th>
@@ -19,5 +19,5 @@
 <tr><td></td>No weather data at this time! Sorry.</td></tr>
 {% endfor %}
 </table>
-</section>
+
 {% endblock %}
