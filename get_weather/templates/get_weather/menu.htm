@@ -1,19 +1,8 @@
 <navclass="navbar navbar-inverse">
-<div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <!--<span class="icon-bar"></span>-->
-        <span class="icon-bar"> Tap to Bring up Navigation Menu. </span>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
 <li> <a href="#skip"> Skip to Main Content</a> </li>
 <li> <a href={% url 'weather:home' %}>Home</a> </li>
 <li > <a href={% url 'weather:daily' %}> Daily Forecast</a> </li>
 <li role="presentation" > <a href={% url 'weather:hourly' %}>Hourly Forecast.</a> </li>
 </ul>
-    </div>
-  </div>
-
 </nav>
