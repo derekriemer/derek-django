@@ -1,0 +1,85 @@
+
+Windows IP Configuration
+
+
+Wireless LAN adapter Wireless Network Connection 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Ethernet adapter Bluetooth Network Connection:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Wireless LAN adapter Wireless Network Connection:
+
+   Connection-specific DNS Suffix  . : int.colorado.edu
+   Link-local IPv6 Address . . . . . : fe80::a830:24d0:b4de:6e0b%12
+   IPv4 Address. . . . . . . . . . . : 10.202.214.200
+   Subnet Mask . . . . . . . . . . . : 255.255.252.0
+   Default Gateway . . . . . . . . . : 10.202.212.1
+
+Ethernet adapter Local Area Connection:
+
+   Connection-specific DNS Suffix  . : resnet.colorado.edu
+   Link-local IPv6 Address . . . . . : fe80::510a:cbf1:6072:b2d0%11
+   IPv4 Address. . . . . . . . . . . : 128.138.19.26
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 128.138.19.1
+
+Ethernet adapter VirtualBox Host-Only Network:
+
+   Connection-specific DNS Suffix  . : 
+   Link-local IPv6 Address . . . . . : fe80::4461:6433:e80b:2f03%19
+   IPv4 Address. . . . . . . . . . . : 192.168.56.1
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 
+
+Tunnel adapter isatap.int.colorado.edu:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : int.colorado.edu
+
+Tunnel adapter Reusable ISATAP Interface {7984268B-E787-4876-81F6-CF14A392CA94}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter Teredo Tunneling Pseudo-Interface:
+
+   Connection-specific DNS Suffix  . : 
+   IPv6 Address. . . . . . . . . . . : 2001:0:9d38:6ab8:14f3:3cf2:7f75:ece5
+   Link-local IPv6 Address . . . . . : fe80::14f3:3cf2:7f75:ece5%20
+   Default Gateway . . . . . . . . . : 
+
+Tunnel adapter isatap.{9CEE711D-BC0F-4F0E-8EFE-592474E99BC2}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter 6TO4 Adapter:
+
+   Connection-specific DNS Suffix  . : resnet.colorado.edu
+   IPv6 Address. . . . . . . . . . . : 2002:808a:131a::808a:131a
+   Default Gateway . . . . . . . . . : 
+
+Tunnel adapter Reusable ISATAP Interface {480CCBCB-FACD-441A-A03B-52DAFC5EEABC}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter isatap.{7742B831-0E3A-49BA-9B96-62EFDA5F8E57}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter isatap.{B20868D9-8A10-43F0-B1A8-9392A52DE647}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter isatap.resnet.colorado.edu:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : resnet.colorado.edu
