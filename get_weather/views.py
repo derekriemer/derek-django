@@ -16,7 +16,7 @@ class Forecast:
             return False
 
     def loadForecast(self):
-        if isCasheValid():
+        if self.isCasheValid():
             return Forecast.cashe
         else:
             print "Expunging weather cashe"
@@ -26,7 +26,7 @@ class Forecast:
             forecast = forecastio.load_forecast(api_key, lat, lng)
             Forecast.cashe=forecast
             Forecast.cashe.time=datetime.datetime.now()
-        return cashe
+        return Forecast.cashe
 
     def windy(self, speed):
         if speed <= 10:
@@ -79,8 +79,8 @@ def index(request):
     highTime= datetime.datetime.fromtimestamp(today.temperatureMaxTime)
     curLst.append("daily high {0} at {1}".format(today.temperatureMax, highTime.strftime("%I:%M %p")))
     lowTime=datetime.datetime.fromtimestamp(today.temperatureMinTime)
-    curLst.append("daily low {0} at {1}".format(today.temperatureMin, LowTime.strftime("%I:%M %p")))
-    curLst.append("It is{0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
+    curLst.append("daily low {0} at {1}".format(today.temperatureMin, lowTime.strftime("%I:%M %p")))
+    curLst.append("It is {0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
     
     context = {
         'curLst' : curLst,
