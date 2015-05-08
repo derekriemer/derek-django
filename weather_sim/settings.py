@@ -25,7 +25,7 @@ SECRET_KEY = '-!go*$k(m=o*ghd!r%fih2=h#_=!dpn$dk=k=0#rv3qhoekt*@'
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'derekriemer.pythonanyware.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'derekriemer.pythonanywhere.com']
 
 
 # Application definition
