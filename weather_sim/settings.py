@@ -20,8 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '-!go*$k(m=o*ghd!r%fih2=h#_=!dpn$dk=k=0#rv3qhoekt*@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'derekriemer.pythonanyware.com']

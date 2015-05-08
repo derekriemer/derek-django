@@ -3,5 +3,12 @@
 {% block title %} Home {% endblock %}
 {% block header %}Home{% endblock %}
 {% block main %}
-Hi and welcome to my little weather app. Click a menu item to get the data you would like.
+<h2> Weather for Boulder Co.</h2>
+<ul>
+{% for i in curLst %}
+<li> i </li>
+{% empty %}
+<li> No weather data to show you at this time. Sorry. </li>
+{% endfor %}
+</ul>
 {% endblock %}

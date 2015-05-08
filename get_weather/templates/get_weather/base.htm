@@ -1,7 +1,9 @@
-<!doctype HTML>
+<!DOCTYPE html>
 <html>
 <head>
 <title> {% block title %} {% endblock %} </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -9,10 +11,25 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% block files %}
 
 {% endblock %}
+{% verbatim %}
+<style>
+body{
+    margin : 50px;
+}
+
+td, th {
+    text-align:center;
+    border:1px;
+}
+</style>
+{% endverbatim %}
+
 </head>
 <body>
 <div class="container-fluid">
@@ -27,8 +44,8 @@
 {% endblock %}</div>
 <footer class="row">
 Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
-This project is powered by django, the awesome web platform that makes python even more awesome than it already is.
-This website is Copyright &copy; Derek riemer 2015 under a  creative commons license. Any attribution should be made to Derek Riemer, and the Django project if necessary. Django is an open sourced project run by the Django Foundation &trade;. More info can be found <a href="https://www.djangoproject.com/"> At the Django website.</a>. 
+This project is powered by Django, the awesome web platform that makes Python even more awesome than it already is.
+This website is Copyright &copy; Derek Riemer 2015 under a  creative commons license. Any attribution should be made to Derek Riemer, and the Django project if necessary. Django is an open sourced project run by the Django Foundation &trade;. More info can be found <a href="https://www.djangoproject.com/"> At the Django website.</a> 
 </footer>
 </div>
 </body>
