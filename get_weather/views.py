@@ -2,56 +2,56 @@ from django.shortcuts import get_object_or_404, render
 import datetime
 import forecastio
 
-cashe=None
-#helper functions.
+class Forecast:
+    cashe=None
+    #helper functions.
 
-def isCasheValid():
-    global cashe
-    if cashe is not None:
-        td=datetime.datetime.now()-cashe.time
-        if td.total_seconds() < 300:
-            return True
-        return False
-    else:
-        return False
+    def isCasheValid(self):
+        if Forecast.cashe is not None:
+            td=datetime.datetime.now()-Forecast.cashe.time
+            if td.total_seconds() < 300:
+                return True
+            return False
+        else:
+            return False
 
-def loadForecast():
-    global cashe
-    if isCasheValid():
+    def loadForecast(self):
+        if isCasheValid():
+            return Forecast.cashe
+        else:
+            print "Expunging weather cashe"
+            api_key = "af5e4568466e3d31b3dbb558d5dc8758"
+            lat=40.014986
+            lng=-105.270546
+            forecast = forecastio.load_forecast(api_key, lat, lng)
+            Forecast.cashe=forecast
+            Forecast.cashe.time=datetime.datetime.now()
         return cashe
-    else:
-        print "Expunging weather cashe"
-        api_key = "af5e4568466e3d31b3dbb558d5dc8758"
-        lat=40.014986
-        lng=-105.270546
-        forecast = forecastio.load_forecast(api_key, lat, lng)
-        cashe=forecast
-        cashe.time=datetime.datetime.now()
-    return cashe
 
-def windy(speed):
-	if speed <= 10:
-		return "calm"
-	elif speed > 10 and speed <= 15:
-		return "breezey"
-	elif speed > 15 and speed <= 20:
-		return "quite breezey"
-	elif speed > 20 and speed <= 30:
-		return "windy"
-	elif speed > 30 and speed <= 40:
-		return "quite windy"
-	elif speed > 40 and speed <= 75:
-		return "extremely windy"
-	else:
-		return "a hurricane forced wind."
-		pass
+    def windy(self, speed):
+        if speed <= 10:
+            return "calm"
+        elif speed > 10 and speed <= 15:
+            return "breezey"
+        elif speed > 15 and speed <= 20:
+            return "quite breezey"
+        elif speed > 20 and speed <= 30:
+            return "windy"
+        elif speed > 30 and speed <= 40:
+            return "quite windy"
+        elif speed > 40 and speed <= 75:
+            return "extremely windy"
+        else:
+            return "a hurricane forced wind."
+            pass
 
 #views.
 def error404(request):
     return render(request, '404.htm', {})
 
 def hourly(request):
-    forecast=loadForecast()
+    weather=Forecast()
+    forecast=weather.loadForecast()
     hourly=forecast.hourly()
     hourData=[(i.time, i.temperature, (i.precipProbability*100)) for i in hourly.data]
     i=hourData[0][0].hour
@@ -67,22 +67,31 @@ def hourly(request):
 
 
 def index(request):
-    """
+    curLst = []
+    weather=Forecast()
+    forecast = weather.loadForecast()
     current=forecast.currently()
-    hourly=forecast.hourly()
-    context = {
-        'forecast' : forecast,
-        'current' : current,
-        'hourly': hourly,
-    }
-    """
-    context={
+    curLst .append("It is currently {0} and {1} degrees f".format(current.summary, int(current.temperature)))
+    day=forecast.daily()
+    today=day.data[0]
+    curLst.append("Today: {0}".format(today.summary))
+    curLst.append("there is a {0:.0%} chance of precipitation.".format(today.precipProbability))
+    highTime= datetime.datetime.fromtimestamp(today.temperatureMaxTime)
+    curLst.append("daily high {0} at {1}".format(today.temperatureMax, highTime.strftime("%I:%M %p")))
+    lowTime=datetime.datetime.fromtimestamp(today.temperatureMinTime)
+    curLst.append("daily low {0} at {1}".format(today.temperatureMin, LowTime.strftime("%I:%M %p")))
+    curLst.append("It is{0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
     
+    context = {
+        'curLst' : curLst,
     }
+
+
     return render(request, 'get_weather/index.htm', context)
 
 def daily(request):
-    forecast=loadForecast()
+    weather = Forecast()
+    forecast=weather.loadForecast()
     daily = forecast.daily()
     W_DAYS = ['Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday']
     forecasted=[]
@@ -105,7 +114,7 @@ def daily(request):
                 formatter['preciptype'] = 'No precipitation is expected '
                 formatter['precipprobability'] = ""
             formatter['summary'] = i.summary
-            formatter['wind'] = windy(i.windSpeed)+" Wind speed: "+str(int(i.windSpeed))+" mph "
+            formatter['wind'] = weather.windy(i.windSpeed)+" Wind speed: "+str(int(i.windSpeed))+" mph "
             forecasted.append("{weekday}: {summary} {wind}High: {temperaturemax} degrees at {temperaturemaxtime}. Low: {temperaturemin} Degrees  at {temperaturemintime}. {preciptype}{precipprobability}".format(**formatter))
         except  NameError as e:
             forecasted.append(e.message)
