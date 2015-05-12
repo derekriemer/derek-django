@@ -17,6 +17,7 @@ $(document).ready(function(){
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     console.log("in crsfsafemethod");
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    console.log(xhr);
                 }
                 console.log("exiting this function!!!!!!");
             }
