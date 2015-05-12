@@ -20,7 +20,7 @@
 <script>
 var page="{% block page %}  {% endblock %}";
 </script>
-<script src="../static/jquery.cookie.js"></script>
+{% csrf_token %}
 {% endif %}
 {% block files %}
 

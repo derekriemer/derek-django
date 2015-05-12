@@ -1,8 +1,7 @@
 $(document).ready(function(){
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
-            
-            var csrftoken = $.cookie('csrftoken');
+            csrf_token=$("input[name='csrfmiddlewaretoken']").attr("value");
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection
             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -10,7 +9,7 @@ $(document).ready(function(){
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
                 }
             }
         });
@@ -23,9 +22,7 @@ $(document).ready(function(){
         function(data, status){
             document.write(data);
             //alert(data+"\n\n"+status);
-            setTimeout(function(){
-                document.getElementById("skip").setFocus();
-            }, 30);;
+
         });
         
         });
