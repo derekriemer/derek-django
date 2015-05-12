@@ -14,7 +14,7 @@ $(document).ready(function(){
                 }
             }
         });
-        $.post("forecast",
+        $.post("weather/forecast",
         {
             lat : position.coords.latitude,
             lng : position.coords.longitude,
