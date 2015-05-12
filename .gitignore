@@ -66,3 +66,5 @@ pyvenv.cfg
 pip-selfcheck.json**/__pycashe__
 #local files that we don't want exported.
 weather_sim/local_settings.py
+weather_sim/local_settings.pyc
+static/**
