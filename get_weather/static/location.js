@@ -22,7 +22,7 @@ $(document).ready(function(){
         },
         function(data, status){
             document.write(data);
-            //alert(data+"\n\n"+status);
+            alert(data+"\n\n"+status);
             setTimeout(function(){
                 document.getElementById("skip").setFocus();
             }, 30);;
