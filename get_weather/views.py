@@ -61,7 +61,7 @@ def forecast(request):
         try:
             page     = request.POST["page"]
         except KeyError:
-            raise Http404("Not a valid page.")
+            return Http404("Not a valid page.")
         if page=="home":
             return index(request, True)
         elif page=="hourly":
@@ -69,7 +69,7 @@ def forecast(request):
         elif page=="daily":
             return daily(request, True)
         else:
-            raise Http404("Page does not exist, Page is, "+page)
+            return Http404("error")
 
 def hourly(request, data=False):
     context={}
@@ -114,7 +114,7 @@ def index(request, data=False): #data will make sure that this gets location or 
         context['curLst'] = curLst
     else:
         context["location"]=True
-        print "HHHHHHHHHHHHHHHHH"
+        
         context['curLst']=[]
     return render(request, 'get_weather/index.htm', context)
 
