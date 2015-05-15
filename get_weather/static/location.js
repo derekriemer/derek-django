@@ -2,7 +2,6 @@ $(document).ready(function(){
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
         // using jQuery
-        var csrf_token;
         function getCookie(name) {
             var cookieValue = null;
             if (document.cookie && document.cookie != '') {
@@ -17,8 +16,9 @@ $(document).ready(function(){
                 }
             }
             return cookieValue;
-        };
-        csrf        _token = getCookie('csrftoken');
+        }
+        var csrf_token = getCookie('csrftoken');
+        console.log(csrf_token);
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection
             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
