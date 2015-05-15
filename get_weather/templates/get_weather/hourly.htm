@@ -7,13 +7,13 @@
 
 <table >
 <tr>
-<th> Hour:</th>
+<th> <h2>Hour:</h2></th>
 <th>Temperature:</th>
 <th> Chance of precipitation. </th>
 </tr>
 {% for i in forecasted %}
 <tr>
-<th>{{i.0|time:"P"|capfirst}}</th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
+<th><h2>{{i.0|time:"P"|capfirst}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
 </tr>
 {% empty %}
 <tr><td></td>No weather data at this time! Sorry.</td></tr>
