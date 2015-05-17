@@ -1,5 +1,5 @@
 """
-Django settings for weather_sim project.
+Django settings for derek_site project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -35,9 +35,10 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-     'django.contrib.messages',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     'get_weather',
+    'personal',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,9 +51,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'weather_sim.urls'
+ROOT_URLCONF = 'derek_site.urls'
 
-WSGI_APPLICATION = 'weather_sim.wsgi.application'
+WSGI_APPLICATION = 'derek_site.wsgi.application'
 
 
 # Database
