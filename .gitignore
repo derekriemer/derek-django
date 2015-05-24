@@ -68,3 +68,5 @@ pip-selfcheck.json**/__pycashe__
 weather_sim/local_settings.py
 weather_sim/local_settings.pyc
 static/**
+#put your api key in this file.
+get_weather/apikey 

@@ -1,0 +1,13 @@
+{% extends "derek_site/base.htm" %}
+{% block other %}
+{% if location == True %}
+<script src="../static/location.js"></script>
+<script>
+var page="{% block page %}  {% endblock %}";
+</script>
+{% csrf_token %}
+{% endif %}
+{% endblock %}
+{% block footer %}
+Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
+{% endblock %}

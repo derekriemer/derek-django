@@ -14,16 +14,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-{% if location == True %}
-<script src="../static/location.js"></script>
-<script>
-var page="{% block page %}  {% endblock %}";
-</script>
-{% csrf_token %}
-{% endif %}
+{% block other %} {% endblock %}
+{% comment %}
+If you wish to include contents such as the location,or a csrf_token, do this in block other. If you wish to include a custom set of files that only pertain to this page, do it in the block files. 
+{% endcomment %}
 {% block files %}
 
 {% endblock %}
+{% comment %}
+Put all css stuff in here.
+{% endcomment %}
+{% block css %}
 {% verbatim %}
 <style>
 body{
@@ -36,11 +37,11 @@ td, th {
 }
 </style>
 {% endverbatim %}
-
+{% endblock %}
 </head>
 <body>
 <div class="container-fluid">
-{% include "get_weather/menu.htm" %}
+{% include MENU_FILE %}
 <div class="page-header">
 <h1 id="skip">{% block header %} {% endblock %}</h1>
 </div>
@@ -50,7 +51,8 @@ td, th {
 
 {% endblock %}</div>
 <footer class="row">
-Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
+{% block footer %}
+{% endblock %}
 This project is powered by Django, the awesome web platform that makes Python even more awesome than it already is.
 This website is Copyright &copy; Derek Riemer 2015 under a  creative commons license. Any attribution should be made to Derek Riemer, and the Django project if necessary. Django is an open sourced project run by the Django Foundation &trade;. More info can be found <a href="https://www.djangoproject.com/"> At the Django website.</a> 
 </footer>

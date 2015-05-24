@@ -53,8 +53,13 @@ class Forecast:
             pass
 
 #views.
-def error404(request):
-    return render(request, '404.htm', {})
+
+def getContext():
+    return {
+        "MENU_FILE" : "get_weather/menu.htm"
+    }
+
+
 
 def forecast(request):
     if request.method=="POST":
@@ -69,10 +74,10 @@ def forecast(request):
         elif page=="daily":
             return daily(request, True)
         else:
-            return Http404("error")
+            return Http404("error, bad post request!")
 
 def hourly(request, data=False):
-    context={}
+    context=getContext()
     if data==True:
         context["location"]=False
         weather=Forecast()
@@ -93,8 +98,8 @@ def hourly(request, data=False):
 
 
 def index(request, data=False): #data will make sure that this gets location or checks for the cashe first.
-    print data
-    context={}
+    #print(data)
+    context=getContext()
     if data==True:
         context["location"]=False
         curLst = []
@@ -119,7 +124,7 @@ def index(request, data=False): #data will make sure that this gets location or 
     return render(request, 'get_weather/index.htm', context)
 
 def daily(request, data=False):
-    context={}
+    context=getContext()
     if data==True:
         context["location"]=False
         weather = Forecast()

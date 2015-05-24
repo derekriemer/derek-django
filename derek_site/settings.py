@@ -10,8 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import local_settings
-DEBUG=local_settings.DEBUG
+from local_settings import * 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -19,7 +19,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-!go*$k(m=o*ghd!r%fih2=h#_=!dpn$dk=k=0#rv3qhoekt*@'
+#secret_KEY must be provided in your local_settings.py file.
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -85,3 +86,7 @@ USE_TZ = True
 STATIC_ROOT = "/home/derekriemer/derek-django/static"
 
 STATIC_URL = '/static/'
+
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+)
