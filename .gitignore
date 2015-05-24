@@ -65,8 +65,7 @@ target/
 pyvenv.cfg
 pip-selfcheck.json**/__pycashe__
 #local files that we don't want exported.
-weather_sim/local_settings.py
-weather_sim/local_settings.pyc
+derek_site/local_settings.py[c]
 static/**
 #put your api key in this file.
 get_weather/apikey 
