@@ -21,9 +21,7 @@ class Forecast:
             return Forecast.cashe
         else:
             #print "Expunging weather cashe"
-            api_key = "af5e4568466e3d31b3dbb558d5dc8758"
-            #lat=40.014986
-            #lng=-105.270546
+            api_key= open("get_weather/apikey").read(100)            
             try:
                 lat=request.POST['lat']
                 lng = request.POST['lng']
