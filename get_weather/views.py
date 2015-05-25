@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 import datetime
 import forecastio
 from django.http import Http404
+import os
 
 class Forecast:
     cashe=None
@@ -21,9 +22,7 @@ class Forecast:
             return Forecast.cashe
         else:
             #print "Expunging weather cashe"
-            api_key = "af5e4568466e3d31b3dbb558d5dc8758"
-            #lat=40.014986
-            #lng=-105.270546
+            api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
             try:
                 lat=request.POST['lat']
                 lng = request.POST['lng']
@@ -53,8 +52,13 @@ class Forecast:
             pass
 
 #views.
-def error404(request):
-    return render(request, '404.htm', {})
+
+def getContext():
+    return {
+        "MENU_FILE" : "get_weather/menu.htm"
+    }
+
+
 
 def forecast(request):
     if request.method=="POST":
@@ -69,10 +73,10 @@ def forecast(request):
         elif page=="daily":
             return daily(request, True)
         else:
-            return Http404("error")
+            return Http404("error, bad post request!")
 
 def hourly(request, data=False):
-    context={}
+    context=getContext()
     if data==True:
         context["location"]=False
         weather=Forecast()
@@ -93,8 +97,8 @@ def hourly(request, data=False):
 
 
 def index(request, data=False): #data will make sure that this gets location or checks for the cashe first.
-    print data
-    context={}
+    #print(data)
+    context=getContext()
     if data==True:
         context["location"]=False
         curLst = []
@@ -119,7 +123,7 @@ def index(request, data=False): #data will make sure that this gets location or 
     return render(request, 'get_weather/index.htm', context)
 
 def daily(request, data=False):
-    context={}
+    context=getContext()
     if data==True:
         context["location"]=False
         weather = Forecast()
