@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 import datetime
 import forecastio
 from django.http import Http404
+import os
 
 class Forecast:
     cashe=None
@@ -21,7 +22,7 @@ class Forecast:
             return Forecast.cashe
         else:
             #print "Expunging weather cashe"
-            api_key= open("get_weather/apikey").read(100)            
+            api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
             try:
                 lat=request.POST['lat']
                 lng = request.POST['lng']
