@@ -15,7 +15,10 @@
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>."""
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
+from django.core.mail import EmailMessage
 from .forms import *
+from django.conf import settings
+TO = settings.EMAIL_ADDRESS_TO
 #helper functions.
 def getContext():
     return {
@@ -39,7 +42,14 @@ def contact(request):
         form = ContactForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            print form.cleaned_data
+            message = EmailMessage()
+            message.subject = "[{} via website]".format(form.cleaned_data["your_name"])+form.cleaned_data["subject"]
+            message.from_email = form.cleaned_data["sender"]
+            message.to=[TO]
+            message.body = form.cleaned_data["message"]
+            if form.cleaned_data["copy_myself"]:
+                message.cc=[form.cleaned_data["sender"]]
+            message.send()
             return HttpResponseRedirect('/personal/thanks/')
         else:
         
