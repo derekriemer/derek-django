@@ -147,26 +147,26 @@ def daily(request, data=False):
         W_DAYS = ['Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday']
         forecasted=[]
         for i in daily.data:
-            formatter={}
+            formatter=[]
             try:
-                formatter['weekday'] = W_DAYS[i.time.weekday()]
+                formatter.append(W_DAYS[i.time.weekday()])
+                formatter.append(i.summary)
                 tmxt = datetime.datetime.fromtimestamp(i.temperatureMaxTime)
                 tmnt = datetime.datetime.fromtimestamp(i.temperatureMinTime)
                 temperatureMaxTime = tmxt.strftime("%I:%M %p")
                 temperatureMinTime = tmnt.strftime("%I:%M %p")
-                formatter['temperaturemax']=i.temperatureMax
-                formatter['temperaturemaxtime'] = temperatureMaxTime
-                formatter['temperaturemin'] = i.temperatureMin
-                formatter['temperaturemintime'] = temperatureMinTime
+                formatter.append(u"high temperature: {0}\xb0 at {1}".format(i.temperatureMax, temperatureMaxTime))
+                formatter.append(u"low temperature: {0}\xb0 at {1}".format(i.temperatureMin, temperatureMinTime))
+                precip=""
                 if i.precipProbability > 0:
-                    formatter['preciptype']= "chance of "+i.precipType
-                    formatter['precipprobability'] = "{:.0%}".format(i.precipProbability)
+                    precip+="chance of "+i.precipType
+                    precip+="{:.0%}".format(i.precipProbability)
                 else:
-                    formatter['preciptype'] = 'No precipitation is expected '
-                    formatter['precipprobability'] = ""
-                formatter['summary'] = i.summary
-                formatter['wind'] = weather.windy(i.windSpeed)+" Wind speed: "+str(int(i.windSpeed))+" mph "
-                forecasted.append("{weekday}: {summary} {wind}High: {temperaturemax} degrees at {temperaturemaxtime}. Low: {temperaturemin} Degrees  at {temperaturemintime}. {preciptype}{precipprobability}".format(**formatter))
+                    precip+='No precipitation is expected '
+                formatter.append(precip)
+                formatter.append("It will be {0}: with a wind speed of approximately {1} mph.".format(weather.windy(i.windSpeed), i.windSpeed))
+                #forecasted.append("{weekday}: {summary} {wind}High: {temperaturemax} degrees at {temperaturemaxtime}. Low: {temperaturemin} Degrees  at {temperaturemintime}. {preciptype}{precipprobability}".format(**formatter))
+                forecasted.append(formatter)
             except  NameError as e:
                 forecasted.append(e.message)
 

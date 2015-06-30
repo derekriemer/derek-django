@@ -1,3 +1,4 @@
+{% extends "get_weather/base.htm" %}
 {% comment %}
 	This file Copyright (C) Derek Riemer, 2015
 	This file is part of my personal website.
@@ -15,27 +16,31 @@
     You should have received a copy of the GNU Affero General Public License
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-{% extends "get_weather/base.htm" %}
+
 {% block page %}hourly{% endblock %}
 {% block title %} Hourly forecast. {% endblock %}
 {% block header %}Hourly forecast{% endblock %}
 {% block main %}
 
 
+<div class="row">
+{% for i in forecasted %}
+{% if forloop.first %}
 <table >
 <tr>
 <th> <h2>Hour:</h2></th>
 <th>Temperature:</th>
 <th> Chance of precipitation. </th>
 </tr>
-{% for i in forecasted %}
+{% endif %}
 <tr>
 <th><h2>{{i.0|time:"P"|capfirst}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
 </tr>
-{% empty %}
-<tr><td></td>No weather data at this time! Sorry.</td></tr>
-{% endfor %}
+{% if forloop.last %}
 </table>
-
-
+{% endif %}
+{% empty %}
+No weather data at this time! Sorry.
+{% endfor %}
+</div>
 {% endblock %}

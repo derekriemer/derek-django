@@ -39,11 +39,14 @@ If you wish to include contents such as the location,or a csrf_token, do this in
 
 {% endblock %}
 {% comment %}
-Put all css stuff in here.
+Put all css stuff in css, and override if necessary with the overrideStandardCss block.
 {% endcomment %}
-{% block css %}
-{% verbatim %}
 <style>
+{% block css %}
+{% endblock %}
+{% block overrideStandardCss %}
+{% verbatim %}
+
 body{
     margin : 50px;
 }
@@ -52,9 +55,10 @@ td, th {
     text-align:center;
     border:1px;
 }
-</style>
 {% endverbatim %}
 {% endblock %}
+</style>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -62,7 +66,7 @@ td, th {
 <div class="page-header">
 <h1 id="skip">{% block header %} {% endblock %}</h1>
 </div>
-<div role="main" id="main" class="row">
+<div role="main" id="main">
 
 {% block main %}
 

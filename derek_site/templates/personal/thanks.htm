@@ -1,4 +1,4 @@
-{% extends "derek_site/base.htm" %}
+{% extends "personal/base.htm" %}
 {% comment %}
 	This file Copyright (C) Derek Riemer, 2015
 	This file is part of my personal website.
@@ -17,16 +17,10 @@
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
-
-{% block other %}
-{% if location == True %}
-<script src="/static/location.js"></script>
-<script>
-var page="{% block page %}  {% endblock %}";
-</script>
-{% csrf_token %}
-{% endif %}
-{% endblock %}
-{% block footer %}
-Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
+{% block title %} Thanks For Contacting Me {% endblock %}
+{% block header %}Thanks{% endblock %}
+{% block main %}
+<p> 
+Thanks for contacting me. The message you sent was emailed to me, and I will respond to you as time allows. If you wish to return to my website, click any of the links in the menu above.
+</p>
 {% endblock %}

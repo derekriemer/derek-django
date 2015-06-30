@@ -1,4 +1,4 @@
-{% extends "derek_site/base.htm" %}
+{% extends "personal/base.htm" %}
 {% comment %}
 	This file Copyright (C) Derek Riemer, 2015
 	This file is part of my personal website.
@@ -17,16 +17,31 @@
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 
+{% block title %} Contact Me {% endblock %}
+{% block header %}Contact Derek Riemer.{% endblock %}
+{% block main %}
 
-{% block other %}
-{% if location == True %}
-<script src="/static/location.js"></script>
-<script>
-var page="{% block page %}  {% endblock %}";
-</script>
-{% csrf_token %}
+{% if errors %}
+<h2 class="col-nd-1"> Errors: Please fix all errors in the list below, and try to resubmit the form. </h2></h2>
+<ul class="col-nd-1">
+{% for field in form %}
+{% for i in field.errors %}
+<li> <a href="#{{field.id_for_label}}">{{field.label}}: {{i}}</a></li>
+{% empty %}
+
+{% endfor %}
+
+{% endfor %}
+</ul>
+<h2 class="col-nd-1"> Form: This is the form where one or more errors exist.</h2>
 {% endif %}
-{% endblock %}
-{% block footer %}
-Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
+
+<form class="col-nd-1" action="/personal/contact/" method="post">
+<fieldset>
+
+    {% csrf_token %}
+    {{ form }}
+    </fieldset>
+    <input type="submit" value="Submit" />
+</form>
 {% endblock %}

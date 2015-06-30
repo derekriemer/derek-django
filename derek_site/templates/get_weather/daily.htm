@@ -1,3 +1,4 @@
+{% extends "get_weather/base.htm" %}
 {% comment %}
 	This file Copyright (C) Derek Riemer, 2015
 	This file is part of my personal website.
@@ -15,16 +16,32 @@
     You should have received a copy of the GNU Affero General Public License
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-{% extends "get_weather/base.htm" %}
+
 {% block page %}daily{% endblock %}
 {% block title %} Daily forecast. {% endblock %}
-{% block main %}
 {% block header %}Daily forecast.{% endblock %}
-<section>
+{% block main %}
+<div>
 
-{% for i in forecasted %}
-{{i}}
-<hr/>
+{% for day in forecasted %}
+<div class="row">
+{% for weatherItem  in day %}
+{% if forloop.counter == 1 %}
+<div class="col-6-xs" style="clear:both;">
+<h2>{{weatherItem}}</h2>
+</div>
+<div class="col-xs-6">
+<ul>
+{% else %}
+<li>{{weatherItem}}</li>
+{% endif %}
+{% if forloop.last %}
+</ul>
+</div>
+{% endif %}
+</div>
+{% endfor %}
+
 {% empty %}
 No weather data at this time! Sorry.
 {% endfor %}

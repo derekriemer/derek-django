@@ -14,8 +14,8 @@
     You should have received a copy of the GNU Affero General Public License
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>."""
 from django.shortcuts import render
-from django.http import Http404
-
+from django.http import Http404, HttpResponseRedirect
+from .forms import *
 #helper functions.
 def getContext():
     return {
@@ -30,3 +30,27 @@ def index(request):
 def bio(request):
     context=getContext()
     return render(request, 'personal/bio.htm', context)
+
+def contact(request):
+    context=getContext()
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ContactForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            print form.cleaned_data
+            return HttpResponseRedirect('/personal/thanks/')
+        else:
+        
+            context.update({'form': form, "errors": True})
+            return render(request, 'personal/contact.htm', context)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ContactForm()
+        context.update({'form': form})
+    return render(request, 'personal/contact.htm', context)
+
+def thanks(request):
+    context=getContext()
+    return render(request, 'personal/thanks.htm', context)
