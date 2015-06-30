@@ -21,7 +21,6 @@
 {% block title %} Daily forecast. {% endblock %}
 {% block header %}Daily forecast.{% endblock %}
 {% block main %}
-<div>
 
 {% for day in forecasted %}
 <div class="row">
@@ -45,5 +44,4 @@
 {% empty %}
 No weather data at this time! Sorry.
 {% endfor %}
-</section>
 {% endblock %}
