@@ -44,7 +44,7 @@ def contact(request):
         if form.is_valid():
             message = EmailMessage()
             message.subject = "[{} via website]".format(form.cleaned_data["your_name"])+form.cleaned_data["subject"]
-            message.from_email = form.cleaned_data["sender"]
+            message.reply_to = [form.cleaned_data["sender"]]
             message.to=[TO]
             message.body = form.cleaned_data["message"]
             if form.cleaned_data["copy_myself"]:
