@@ -69,4 +69,5 @@ derek_site/local_settings.py
 derek_site/local_settings.pyc
 static/**
 #put your api key in this file.
-get_weather/apikey 
+get_weather/apikeys.xml
+db.sqlite3

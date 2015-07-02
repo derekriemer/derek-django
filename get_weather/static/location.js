@@ -54,6 +54,13 @@ $(document).ready(function(){
                 document.write(data);
                 //alert(data+"\n\n"+status);
             });
+        },
+        function err(){
+        alert("Sorry. Error receiving weather data since I can't get your location.")},
+        {
+            enableHighAccuracy: true, 
+            maximumAge        : 30000, 
+            timeout           : 27000
         });
     } 
     else
