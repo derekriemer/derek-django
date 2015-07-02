@@ -16,3 +16,9 @@
 from django.db import models
 
 # Create your models here.
+class ApiKey(models.Model):
+    name=models.CharField(max_length=20)
+    api_key=models.CharField(max_length=2048)
+    
+    def __str__(self):
+        return self.name

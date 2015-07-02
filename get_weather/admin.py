@@ -14,5 +14,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>."""
 from django.contrib import admin
+from .models import ApiKey
 
 # Register your models here.
+admin.site.register(ApiKey)
