@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'get_weather',
     'personal',
+    'software_list',
 )
 
 MIDDLEWARE_CLASSES = (
