@@ -61,17 +61,18 @@ td, th {
 
 </head>
 <body>
-<div class="container-fluid">
+
 {% include MENU_FILE %}
 <div class="page-header">
 <h1 id="skip">{% block header %} {% endblock %}</h1>
 </div>
-<div role="main" id="main">
+<div role="main" id="main" class="container-fluid">
 
 {% block main %}
 
-{% endblock %}</div>
-<footer class="row">
+{% endblock %}
+</div>
+<footer class="container-fluid">
 {% block footer %}
 {% endblock %}<hr/>
 This project is powered by Django, an awesome 
@@ -88,6 +89,6 @@ Please see the instructions for copying in the source code before redistribution
 I hope you found this website useful. 
 Please see the <a href="/personal/contact/">Contact form</a> on this website to contact me. 
 </footer>
-</div>
+
 </body>
 </html>
