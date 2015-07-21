@@ -64,3 +64,9 @@ def contact(request):
 def thanks(request):
     context=getContext()
     return render(request, 'personal/thanks.htm', context)
+
+def software(request):
+    context=getContext()
+    apps = Software.objects.all()
+    context['apps'] = apps
+    return render(request, 'personal/software.htm', context)

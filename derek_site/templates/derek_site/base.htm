@@ -32,6 +32,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% block other %} {% endblock %}
+{% block other-2 %} {% endblock %}
 {% comment %}
 If you wish to include contents such as the location,or a csrf_token, do this in block other. If you wish to include a custom set of files that only pertain to this page, do it in the block files. 
 {% endcomment %}
@@ -54,6 +55,13 @@ body{
 td, th {
     text-align:center;
     border:1px;
+}
+.sr_specific {
+	position:absolute;
+	height:1px;
+	width:1px;
+	top:-100;
+	bottom:-100;
 }
 {% endverbatim %}
 {% endblock %}
