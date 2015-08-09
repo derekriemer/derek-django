@@ -68,7 +68,7 @@ pip-selfcheck.json**/__pycashe__
 derek_site/local_settings.py
 derek_site/local_settings.pyc
 static/**
-#put your api key in this file.
+#put your api key in this file. the one that is apikey.
 get_weather/apikeys.xml
 db.sqlite3
 get_weather/apikey

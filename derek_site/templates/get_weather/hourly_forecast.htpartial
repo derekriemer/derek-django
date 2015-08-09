@@ -1,0 +1,46 @@
+{% comment %}
+	This file Copyright (C) Derek Riemer, 2015
+	This file is part of my personal website.
+
+	my personal website is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The code of my personal website is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+<script>
+{% for i in forecasted %}
+{% if forloop.first %}var table = [{% endif %}
+[[{{forloop.counter|add:-1}}, "{{i.0|time:"P"|capfirst}}"], {{i.1|floatformat:0}}, {{i.2|floatformat:0}}]
+{% if forloop.last %}];{% else %},{% endif %}
+{% empty %}var nothing = true;
+{% endfor %}
+</script>
+<script src="/static/hourly_table.js"></script>
+<div class="row">
+{% for i in forecasted %}
+{% if forloop.first %}
+<a href="javascript:void(0);" onclick='alert("Click the columns to sort the table. For example, If you click the precipitation column, it will first sort the table in decending order of precip, which means that the hour with the highest precipitation value will move to row 1. Click  the column again to make that column sort assending. The hourly column starts out being the selected column, and it is sorted assending by default. If you click a new column, it will automatically start out sorted decending, such that the highest valued thing comes first.")'>Explain table </a>
+<table  id="dynamic_table_hourly_forecast">
+<tr>
+<th class="selected"> <h2><a href ="javascript:void(0)" onclick="makeTable(0)" aria-selected="true">Hour:</a></h2></th>
+<th> <a href ="javascript:void(0)" onclick="makeTable(1)">Temperature:</a></th>
+<th> <a href ="javascript:void(0)" onclick="makeTable(2)">Chance of precip:</a></th>
+</tr>
+{% endif %}
+<tr>
+<th class="selected"><h2>{{i.0|time:"P"|capfirst}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
+</tr>
+{% if forloop.last %}
+</table>
+{% endif %}
+{% empty %}
+No weather data at this time! Sorry.
+{% endfor %}
