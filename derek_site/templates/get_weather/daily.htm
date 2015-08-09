@@ -20,28 +20,3 @@
 {% block page %}daily{% endblock %}
 {% block title %} Daily forecast. {% endblock %}
 {% block header %}Daily forecast.{% endblock %}
-{% block main %}
-
-{% for day in forecasted %}
-<div class="row">
-{% for weatherItem  in day %}
-{% if forloop.counter == 1 %}
-<div class="col-xs-2">
-<h2>{{weatherItem}}</h2>
-</div>
-<div class="col-xs-10">
-<ul>
-{% else %}
-<li>{{weatherItem}}</li>
-{% endif %}
-{% if forloop.last %}
-</ul>
-</div>
-{% endif %}
-
-{% endfor %}
-</div>
-{% empty %}
-No weather data at this time! Sorry.
-{% endfor %}
-{% endblock %}

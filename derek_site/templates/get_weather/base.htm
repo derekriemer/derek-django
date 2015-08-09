@@ -19,15 +19,45 @@
 
 
 {% block other %}
-{% if location == True %}
 <script src="/static/location.js"></script>
 <script>
 var page="{% block page %}  {% endblock %}";
 </script>
 
 {% csrf_token %}
-{% endif %}
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwgZ0Ea-HQk2Q6gYcjAMHG68HSzz-F0pQ"> </script>
+<script src="/static/geocoder.js"></script>
 {% endblock %}
+{% block main %}
+<div aria-live="polite."> Loading weather... Please wait.</div>
+{% endblock %}
+
+
 {% block footer %}
+<div id="addressdialog">
+<h1 tabindex="0">Current Address.</h1>
+<p tabindex="0"> Your current address is <span id="address"></span></p>
+<div style="height:50%;margin:0px;padding:0px;" id="map">
+</div>
+</div>
+<script>
+    $(function(){
+    $( "#addressdialog" ).dialog({
+        modal:true,
+        autoOpen:false,
+        close: function(event,ui){
+            $("#map").html("");
+        },
+        buttons:[
+            {
+                text: "Show this location on a google map" ,
+                click: function(){geocode.loadMap();}
+            }
+        ]
+    });
+    });
+</script>
+<div id="statusbar" class="sr_specific" role="status"></div>
 Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
 {% endblock %}

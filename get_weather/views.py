@@ -93,7 +93,6 @@ def forecast(request):
 def hourly(request, data=False):
     context=getContext()
     if data==True:
-        context["location"]=False
         weather=Forecast()
         forecast=weather.loadForecast(request)
         hourly=forecast.hourly()
@@ -105,17 +104,15 @@ def hourly(request, data=False):
                 break
             lastIndex+=1
         context['forecasted'] = hourData[:lastIndex+1]
+        return render(request, 'get_weather/hourly_forecast.htpartial', context)
     else:
-        context["location"]=True
-        context["hourData"] = []
-    return render(request, 'get_weather/hourly.htm', context)
+        return render(request, 'get_weather/hourly.htm', context)
 
 
 def index(request, data=False): #data will make sure that this gets location or checks for the cashe first.
     #print(data)
     context=getContext()
     if data==True:
-        context["location"]=False
         curLst = []
         weather=Forecast()
         forecast = weather.loadForecast(request)
@@ -131,16 +128,13 @@ def index(request, data=False): #data will make sure that this gets location or 
         curLst.append("daily low {0} at {1}".format(today.temperatureMin, lowTime.strftime("%I:%M %p")))
         curLst.append("It is {0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
         context['curLst'] = curLst
+        return render(request, 'get_weather/current_forecast.htpartial', context)
     else:
-        context["location"]=True
-        
-        context['curLst']=[]
-    return render(request, 'get_weather/index.htm', context)
+        return render(request, 'get_weather/index.htm', context)
 
 def daily(request, data=False):
     context=getContext()
     if data==True:
-        context["location"]=False
         weather = Forecast()
         forecast=weather.loadForecast(request)
         daily = forecast.daily()
@@ -169,13 +163,8 @@ def daily(request, data=False):
                 forecasted.append(formatter)
             except  NameError as e:
                 forecasted.append(e.message)
-
-
-
         context['forecasted']= forecasted
+        print "haha"
+        return render(request, 'get_weather/daily_forecast.htpartial', context)
     else:
-        context["location"]=True
-        context['forecasted'] = []
-
-
-    return render(request, 'get_weather/daily.htm', context)
+        return render(request, 'get_weather/daily.htm', context)

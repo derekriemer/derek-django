@@ -1,4 +1,5 @@
-	/*This file Copyright (C) Derek Riemer, 2015
+var a;
+    /*This file Copyright (C) Derek Riemer, 2015
 	This file is part of my personal website.
 
 	my personal website is free software: you can redistribute it and/or modify
@@ -14,46 +15,54 @@
     You should have received a copy of the GNU Affero General Public License
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>.*/
 $(document).ready(function(){
+    // using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrf_token = getCookie('csrftoken');
+    function queryMyApi(lat,lng){
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                }
+            }
+        });
+        a = $.post("forecast",
+        {
+            lat :lat,
+            lng :lng,
+            page: page
+        },
+        function(data, status){
+            console.log(status);
+            geocode.setLatLng(lat,lng);
+            console.log("ok");
+            $("#main").html(data);
+            $("#skip").focus();
+            $("#footer").before('<button onclick="geocode.showAddressModal()"> Show my current address</button>');
+            //alert(data+"\n\n"+status);
+        });
+    }
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
-            // using jQuery
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-            var csrf_token = getCookie('csrftoken');
-            function csrfSafeMethod(method) {
-                // these HTTP methods do not require CSRF protection
-                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-            }
-            $.ajaxSetup({
-                beforeSend: function(xhr, settings) {
-                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                        xhr.setRequestHeader("X-CSRFToken", csrf_token);
-                    }
-                }
-            });
-            $.post("forecast",
-            {
-                lat : position.coords.latitude,
-                lng : position.coords.longitude,
-                page: page
-            },
-            function(data, status){
-                document.write(data);
-                //alert(data+"\n\n"+status);
-            });
+            queryMyApi( position.coords.latitude,position.coords.longitude)
         },
         function err(){
         alert("Sorry. Error receiving weather data since I can't get your location.")},
