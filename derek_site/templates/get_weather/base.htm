@@ -33,24 +33,35 @@ var page="{% block page %}  {% endblock %}";
 <div id="addressdialog" title="Current location" class="ui-dialog">
 <h1 tabindex="0">Current Address.</h1>
 <p tabindex="0"> Your current address is <span id="address"></span></p>
+</div>
+<div id="mapdialog" title="map">
 <div id="map">
 </div>
 </div>
+
 <script>
     $(function(){
     $( "#addressdialog" ).dialog({
         modal:true,
         autoOpen:false,
-        close: function(event,ui){
-            $("#map").html("");
-        },
         buttons:[
             {
                 text: "Show this location on a google map" ,
-                click: function(){geocode.loadMap();}
+                click: function(){
+                $("#addressdialog").dialog("close");
+                geocode.loadMap();
+                $("#mapdialog").dialog("open");
+                }
             }
         ]
     });
+    $("#mapdialog").dialog({
+    modal:true,
+        autoOpen:false,
+                close: function(event,ui){
+            $("#map").html("");
+        },
+        });
     });
 </script>
 {% endblock %}
