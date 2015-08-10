@@ -29,16 +29,11 @@ var page="{% block page %}  {% endblock %}";
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwgZ0Ea-HQk2Q6gYcjAMHG68HSzz-F0pQ"> </script>
 <script src="/static/geocoder.js"></script>
 {% endblock %}
-{% block main %}
-<div aria-live="polite."> Loading weather... Please wait.</div>
-{% endblock %}
-
-
-{% block footer %}
-<div id="addressdialog">
+{% block dialogs %}
+<div id="addressdialog" title="Current location" class="ui-dialog">
 <h1 tabindex="0">Current Address.</h1>
 <p tabindex="0"> Your current address is <span id="address"></span></p>
-<div style="height:50%;margin:0px;padding:0px;" id="map">
+<div id="map">
 </div>
 </div>
 <script>
@@ -58,6 +53,13 @@ var page="{% block page %}  {% endblock %}";
     });
     });
 </script>
+{% endblock %}
+{% block main %}
+<div aria-live="polite."> Loading weather... Please wait.</div>
+{% endblock %}
+
+
+{% block footer %}
 <div id="statusbar" class="sr_specific" role="status"></div>
 Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
 {% endblock %}
