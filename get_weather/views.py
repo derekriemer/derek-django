@@ -20,6 +20,12 @@ from django.http import Http404
 import os
 
 api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
+#helper functions.
+
+def getJavascriptTagForSeconds(dt):
+    """Converts a datetime into a javascript blob that coerces into the local time reading standard when run.
+    """
+    return "<script>(new Date("+str(int((dt - datetime.datetime(1970, 1, 1)).total_seconds()))+")).toLocaleTimeString();</script>"
 
 class Forecast:
     cashe=None
@@ -50,6 +56,8 @@ class Forecast:
             #Forecast.cashe.time=datetime.datetime.now()
         return forecast
 
+
+
     def windy(self, speed):
         if speed <= 10:
             return "calm"
@@ -65,7 +73,6 @@ class Forecast:
             return "extremely windy"
         else:
             return "a hurricane forced wind."
-            pass
 
 #views.
 
@@ -97,14 +104,8 @@ def hourly(request, data=False):
         weather=Forecast()
         forecast=weather.loadForecast(request)
         hourly=forecast.hourly()
-        hourData=[(i.time, i.temperature, (i.precipProbability*100)) for i in hourly.data]
-        i=hourData[0][0].hour
-        lastIndex=1
-        while lastIndex<len(hourData):
-            if hourData[lastIndex][0].hour == i: #24 hours has passed.
-                break
-            lastIndex+=1
-        context['forecasted'] = hourData[:lastIndex+1]
+        hourData=[(getJavascriptTagForSeconds(i.time), i.temperature, (i.precipProbability*100)) for i in hourly.data]
+        context['forecasted'] = hourData[:24]
         return render(request, 'get_weather/hourly_forecast.htpartial', context)
     else:
         return render(request, 'get_weather/hourly.htm', context)
@@ -118,15 +119,15 @@ def index(request, data=False): #data will make sure that this gets location or 
         weather=Forecast()
         forecast = weather.loadForecast(request)
         current=forecast.currently()
-        curLst .append("It is currently {0} and {1} degrees f".format(current.summary, int(current.temperature)))
+        curLst .append("It is currently {0} and {1}\xb0 F".format(current.summary, int(current.temperature)))
         day=forecast.daily()
         today=day.data[0]
         curLst.append("Today: {0}".format(today.summary))
         curLst.append("there is a {0:.0%} chance of precipitation.".format(today.precipProbability))
-        highTime= datetime.datetime.fromtimestamp(today.temperatureMaxTime)
-        curLst.append("daily high {0} at {1}".format(today.temperatureMax, highTime.strftime("%I:%M %p")))
-        lowTime=datetime.datetime.fromtimestamp(today.temperatureMinTime)
-        curLst.append("daily low {0} at {1}".format(today.temperatureMin, lowTime.strftime("%I:%M %p")))
+        highTime= getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(today.temperatureMaxTime))
+        curLst.append("daily high {0}\xb0 F at {1}".format(today.temperatureMax, highTime))
+        lowTime=getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(today.temperatureMinTime))
+        curLst.append("daily low {0}\xb0 at {1}".format(today.temperatureMin, lowTime))
         curLst.append("It is {0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
         context['curLst'] = curLst
         return render(request, 'get_weather/current_forecast.htpartial', context)
@@ -146,10 +147,8 @@ def daily(request, data=False):
             try:
                 formatter.append(W_DAYS[i.time.weekday()])
                 formatter.append(i.summary)
-                tmxt = datetime.datetime.fromtimestamp(i.temperatureMaxTime)
-                tmnt = datetime.datetime.fromtimestamp(i.temperatureMinTime)
-                temperatureMaxTime = tmxt.strftime("%I:%M %p")
-                temperatureMinTime = tmnt.strftime("%I:%M %p")
+                temperatureMaxTime = getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(i.temperatureMaxTime))
+                temperatureMinTime = getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(i.temperatureMinTime))
                 formatter.append(u"high temperature: {0}\xb0 at {1}".format(i.temperatureMax, temperatureMaxTime))
                 formatter.append(u"low temperature: {0}\xb0 at {1}".format(i.temperatureMin, temperatureMinTime))
                 precip=""
@@ -160,12 +159,11 @@ def daily(request, data=False):
                     precip+='No precipitation is expected '
                 formatter.append(precip)
                 formatter.append("It will be {0}: with a wind speed of approximately {1} mph.".format(weather.windy(i.windSpeed), i.windSpeed))
-                #forecasted.append("{weekday}: {summary} {wind}High: {temperaturemax} degrees at {temperaturemaxtime}. Low: {temperaturemin} Degrees  at {temperaturemintime}. {preciptype}{precipprobability}".format(**formatter))
+                #It used to be that formatter was used as the format strings dictionarry for placing the daily forecast in before I converted it to a list.
                 forecasted.append(formatter)
             except  NameError as e:
-                forecasted.append(e.message)
+                forecasted.append("error retreiving current days wether.")
         context['forecasted']= forecasted
-        print "haha"
         return render(request, 'get_weather/daily_forecast.htpartial', context)
     else:
         return render(request, 'get_weather/daily.htm', context)

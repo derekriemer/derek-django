@@ -18,7 +18,7 @@
 <script>
 {% for i in forecasted %}
 {% if forloop.first %}var table = [{% endif %}
-[[{{forloop.counter|add:-1}}, "{{i.0|time:"P"|capfirst}}"], {{i.1|floatformat:0}}, {{i.2|floatformat:0}}]
+[[{{forloop.counter|add:-1}}, "{{i.0|safe}}"], {{i.1|floatformat:0}}, {{i.2|floatformat:0}}]
 {% if forloop.last %}];{% else %},{% endif %}
 {% empty %}var nothing = true;
 {% endfor %}
@@ -36,7 +36,7 @@
 </tr>
 {% endif %}
 <tr>
-<th class="selected"><h2>{{i.0|time:"P:T,e"|capfirst}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
+<th class="selected"><h2>{{i.0|safe}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
 </tr>
 {% if forloop.last %}
 </table>
