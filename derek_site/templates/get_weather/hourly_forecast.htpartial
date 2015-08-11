@@ -36,7 +36,7 @@
 </tr>
 {% endif %}
 <tr>
-<th class="selected"><h2>{{i.0|time:"P"|capfirst}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
+<th class="selected"><h2>{{i.0|time:"P:T,e"|capfirst}}</h2></th><td>{{i.1|floatformat:0}}&#176;F</td><td>{{i.2|floatformat:0}}%</td>
 </tr>
 {% if forloop.last %}
 </table>

@@ -19,6 +19,8 @@ import forecastio
 from django.http import Http404
 import os
 
+api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
+
 class Forecast:
     cashe=None
     #helper functions.
@@ -37,7 +39,6 @@ class Forecast:
             return Forecast.cashe
         else:
             #print "Expunging weather cashe"
-            api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
             try:
                 lat=request.POST['lat']
                 lng = request.POST['lng']
