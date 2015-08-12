@@ -166,7 +166,7 @@ def daily(request, data=False):
         for i in daily.data:
             formatter=[]
             try:
-                formatter.append(W_DAYS[i.time.weekday()])
+                formatter.append(W_DAYS[datetime.datetime.fromtimestamp(i.time).weekday()])
                 formatter.append(i.summary)
                 a=str(next(idNum))
                 temperatureMaxTime = getJavascriptTag(i.temperatureMaxTime, "maxt_"+a)
