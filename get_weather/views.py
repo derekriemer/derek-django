@@ -19,7 +19,7 @@ import forecastio
 from django.http import Http404
 import os
 
-api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
+API_KEY= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
 #helper functions.
 
 def makeIds():
@@ -45,6 +45,7 @@ def getJavascriptTag(dt, id):
     """Converts a time into a javascript blob that coerces into the local time reading standard when run.
     """
     return pre(id)+str(dt*1000)+post(id)
+
 class Forecast:
     cashe=None
     #helper functions.
@@ -68,7 +69,7 @@ class Forecast:
                 lng = request.POST['lng']
             except KeyError:
                 raise Http404("bad request")
-            forecast = forecastio.load_forecast(api_key, lat, lng)
+            forecast = forecastio.load_forecast(API_KEY, lat, lng)
             
             #Forecast.cashe=forecast
             #Forecast.cashe.time=datetime.datetime.now()
@@ -123,9 +124,17 @@ def hourly(request, data=False):
         weather=Forecast()
         forecast=weather.loadForecast(request)
         hourly=forecast.hourly()
-        hourData=[(getJavascriptTag(i.time, "hourly_"+str(next(idNum))), i.temperature, (i.precipProbability*100)) for i in hourly.data]
-        print hourData
-        context['forecasted'] = hourData[:24]
+        hourData = []
+        for i in hourly.data[:24]:
+            id="\"hourly_"+str(next(idNum))+'"'
+            hourData.append({
+                "id" : id,
+                "tag": "<span id="+id+"></span>",
+                "script": str(i.time*1000),
+                "temp": i.temperature,
+                "precip": (i.precipProbability*100)
+            })
+        context['forecasted'] = hourData
         return render(request, 'get_weather/hourly_forecast.htpartial', context)
     else:
         return render(request, 'get_weather/hourly.htm', context)

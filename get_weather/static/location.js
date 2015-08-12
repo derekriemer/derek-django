@@ -56,7 +56,7 @@ $(document).ready(function(){
             console.log("ok");
             $("#main").html(data);
             $("#skip").focus();
-            $("#footer").before('<button onclick="geocode.showAddressModal()"> Show my current address</button>');
+            $("#footer").before('<div class="row"><button onclick="geocode.showAddressModal()"> Show my current address</button></div>');
             //alert(data+"\n\n"+status);
         });
     }
@@ -65,11 +65,11 @@ $(document).ready(function(){
             queryMyApi( position.coords.latitude,position.coords.longitude)
         },
         function err(){
-        alert("Sorry. Error receiving weather data since I can't get your location.")},
+        alert("Sorry. Error receiving weather data. I can't get your location.")},
         {
             enableHighAccuracy: true, 
             maximumAge        : 30000, 
-            timeout           : 27000
+            timeout           : 30000
         });
     } 
     else
