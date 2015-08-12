@@ -198,3 +198,4 @@ def daily(request, data=False):
         return render(request, 'get_weather/daily_forecast.htpartial', context)
     else:
         return render(request, 'get_weather/daily.htm', context)
+

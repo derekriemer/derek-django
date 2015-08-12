@@ -1,4 +1,5 @@
-const CUTE_PUPPY=5;
+const CUTE_PUPPY="/static/cute_puppy.jpg"; //part of easterEgg_cute_puppy.
+
 function friendlyHourNames(hour){
     varmarker="";
     if(hour==0){
