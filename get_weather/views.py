@@ -22,11 +22,29 @@ import os
 api_key= open(os.path.join(os.path.dirname(__file__), 'apikey').replace('\\','/')).read(100)            
 #helper functions.
 
-def getJavascriptTagForSeconds(dt):
+def makeIds():
+    a=1
+    while True:
+        b=(yield a) #allow for it to be changed.
+        if b is not None:
+            a=b-1 #generate b again for whatever reason.
+        a+=1
+
+def pre(id):
+    return u"<span id=\"{}\"><script>var d=new Date(".format(id)
+
+def post(id):
+    return u"); document.getElementById(\""+id+"\").innerHTML=friendlyHourNames(d.getHours());</script></span>"
+
+def getJavascriptTagForSeconds(dt, id):
     """Converts a datetime into a javascript blob that coerces into the local time reading standard when run.
     """
-    return "<script>(new Date("+str(int((dt - datetime.datetime(1970, 1, 1)).total_seconds()))+")).toLocaleTimeString();</script>"
+    return pre(id)+str(int((dt - datetime.datetime(1970, 1, 1)).total_seconds())*1000)+post(id)
 
+def getJavascriptTag(dt, id):
+    """Converts a time into a javascript blob that coerces into the local time reading standard when run.
+    """
+    return pre(id)+str(dt*1000)+post(id)
 class Forecast:
     cashe=None
     #helper functions.
@@ -101,10 +119,12 @@ def forecast(request):
 def hourly(request, data=False):
     context=getContext()
     if data==True:
+        idNum=makeIds()
         weather=Forecast()
         forecast=weather.loadForecast(request)
         hourly=forecast.hourly()
-        hourData=[(getJavascriptTagForSeconds(i.time), i.temperature, (i.precipProbability*100)) for i in hourly.data]
+        hourData=[(getJavascriptTag(i.time, "hourly_"+str(next(idNum))), i.temperature, (i.precipProbability*100)) for i in hourly.data]
+        print hourData
         context['forecasted'] = hourData[:24]
         return render(request, 'get_weather/hourly_forecast.htpartial', context)
     else:
@@ -119,16 +139,16 @@ def index(request, data=False): #data will make sure that this gets location or 
         weather=Forecast()
         forecast = weather.loadForecast(request)
         current=forecast.currently()
-        curLst .append("It is currently {0} and {1}\xb0 F".format(current.summary, int(current.temperature)))
+        curLst .append(u"It is currently {0} and {1}&#xb0; F".format(current.summary, int(current.temperature)))
         day=forecast.daily()
         today=day.data[0]
-        curLst.append("Today: {0}".format(today.summary))
-        curLst.append("there is a {0:.0%} chance of precipitation.".format(today.precipProbability))
-        highTime= getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(today.temperatureMaxTime))
-        curLst.append("daily high {0}\xb0 F at {1}".format(today.temperatureMax, highTime))
-        lowTime=getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(today.temperatureMinTime))
-        curLst.append("daily low {0}\xb0 at {1}".format(today.temperatureMin, lowTime))
-        curLst.append("It is {0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
+        curLst.append(u"Today: {0}".format(today.summary))
+        curLst.append(u"there is a {0:.0%} chance of precipitation.".format(today.precipProbability))
+        highTime= getJavascriptTag(today.temperatureMaxTime, "high_1")
+        curLst.append(u"daily high {0}&#xb0; F at {1}".format(today.temperatureMax, highTime))
+        lowTime=getJavascriptTag(today.temperatureMinTime, "low_1")
+        curLst.append(u"daily low {0}&#xb0; at {1}".format(today.temperatureMin, lowTime))
+        curLst.append(u"It is {0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
         context['curLst'] = curLst
         return render(request, 'get_weather/current_forecast.htpartial', context)
     else:
@@ -136,6 +156,7 @@ def index(request, data=False): #data will make sure that this gets location or 
 
 def daily(request, data=False):
     context=getContext()
+    idNum=makeIds()
     if data==True:
         weather = Forecast()
         forecast=weather.loadForecast(request)
@@ -147,10 +168,11 @@ def daily(request, data=False):
             try:
                 formatter.append(W_DAYS[i.time.weekday()])
                 formatter.append(i.summary)
-                temperatureMaxTime = getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(i.temperatureMaxTime))
-                temperatureMinTime = getJavascriptTagForSeconds(datetime.datetime.fromtimestamp(i.temperatureMinTime))
-                formatter.append(u"high temperature: {0}\xb0 at {1}".format(i.temperatureMax, temperatureMaxTime))
-                formatter.append(u"low temperature: {0}\xb0 at {1}".format(i.temperatureMin, temperatureMinTime))
+                a=str(next(idNum))
+                temperatureMaxTime = getJavascriptTag(i.temperatureMaxTime, "maxt_"+a)
+                temperatureMinTime = getJavascriptTag(i.temperatureMinTime, "mint_"+str(a))
+                formatter.append(u"high temperature: {0}&#xb0;F at {1}".format(i.temperatureMax, temperatureMaxTime))
+                formatter.append(u"low temperature: {0}&#xb0; at {1}".format(i.temperatureMin, temperatureMinTime))
                 precip=""
                 if i.precipProbability > 0:
                     precip+="chance of "+i.precipType

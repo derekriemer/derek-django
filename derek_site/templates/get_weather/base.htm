@@ -19,6 +19,7 @@
 
 
 {% block other %}
+<script src="/static/utils.js"> </script>
 <script src="/static/location.js"></script>
 <script>
 var page="{% block page %}  {% endblock %}";
@@ -28,6 +29,7 @@ var page="{% block page %}  {% endblock %}";
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwgZ0Ea-HQk2Q6gYcjAMHG68HSzz-F0pQ"> </script>
 <script src="/static/geocoder.js"></script>
+
 {% endblock %}
 {% block main %}
 <div aria-live="polite."> Loading weather... Please wait.</div>

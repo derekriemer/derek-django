@@ -26,7 +26,7 @@
 <div class="col-xs-10">
 <ul>
 {% else %}
-<li>{{weatherItem}}</li>
+<li>{{weatherItem|safe}}</li>
 {% endif %}
 {% if forloop.last %}
 </ul>
