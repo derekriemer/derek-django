@@ -31,35 +31,48 @@ var page="{% block page %}  {% endblock %}";
 <script src="/static/geocoder.js"></script>
 
 {% endblock %}
+{% block dialogs %}
+<div id="addressdialog" title="Current location" class="ui-dialog">
+<h1 tabindex="0">Current Address.</h1>
+<p tabindex="0"> Your current address is <span id="address"></span></p>
+</div>
+<div id="mapdialog" title="map">
+<div id="map">
+</div>
+</div>
+
+<script>
+    $(function(){
+    $( "#addressdialog" ).dialog({
+        modal:true,
+        autoOpen:false,
+        buttons:[
+            {
+                text: "Show this location on a google map" ,
+                click: function(){
+                $("#addressdialog").dialog("close");
+                geocode.loadMap();
+                $("#mapdialog").dialog("open");
+                }
+            }
+        ]
+    });
+    $("#mapdialog").dialog({
+    modal:true,
+        autoOpen:false,
+                close: function(event,ui){
+            $("#map").html("");
+        },
+        });
+    });
+</script>
+{% endblock %}
 {% block main %}
 <div aria-live="polite."> Loading weather... Please wait.</div>
 {% endblock %}
 
 
 {% block footer %}
-<div id="addressdialog">
-<h1 tabindex="0">Current Address.</h1>
-<p tabindex="0"> Your current address is <span id="address"></span></p>
-<div style="height:50%;margin:0px;padding:0px;" id="map">
-</div>
-</div>
-<script>
-    $(function(){
-    $( "#addressdialog" ).dialog({
-        modal:true,
-        autoOpen:false,
-        close: function(event,ui){
-            $("#map").html("");
-        },
-        buttons:[
-            {
-                text: "Show this location on a google map" ,
-                click: function(){geocode.loadMap();}
-            }
-        ]
-    });
-    });
-</script>
 <div id="statusbar" class="sr_specific" role="status"></div>
 Weather data provided by <a href="http://forecast.io/"> the Forecastio api.</a>
 {% endblock %}
