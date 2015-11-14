@@ -81,9 +81,9 @@ class Forecast:
         if speed <= 10:
             return "calm"
         elif speed > 10 and speed <= 15:
-            return "breezey"
+            return "breezy"
         elif speed > 15 and speed <= 20:
-            return "quite breezey"
+            return "quite breezy"
         elif speed > 20 and speed <= 30:
             return "windy"
         elif speed > 30 and speed <= 40:
@@ -152,7 +152,11 @@ def index(request, data=False): #data will make sure that this gets location or 
         day=forecast.daily()
         today=day.data[0]
         curLst.append(u"Today: {0}".format(today.summary))
-        curLst.append(u"there is a {0:.0%} chance of precipitation.".format(today.precipProbability))
+        if today.precipProbability != 0:
+            curLst.append(u"there is a {0:.0%} chance of precipitation.".format(today.precipProbability))
+        else:
+            curLst.append(u"No precipitation expected today.")
+        
         highTime= getJavascriptTag(today.temperatureMaxTime, "high_1")
         curLst.append(u"daily high {0}&#xb0; F at {1}".format(today.temperatureMax, highTime))
         lowTime=getJavascriptTag(today.temperatureMinTime, "low_1")
@@ -181,7 +185,7 @@ def daily(request, data=False):
                 temperatureMaxTime = getJavascriptTag(i.temperatureMaxTime, "maxt_"+a)
                 temperatureMinTime = getJavascriptTag(i.temperatureMinTime, "mint_"+str(a))
                 formatter.append(u"high temperature: {0}&#xb0;F at {1}".format(i.temperatureMax, temperatureMaxTime))
-                formatter.append(u"low temperature: {0}&#xb0; at {1}".format(i.temperatureMin, temperatureMinTime))
+                formatter.append(u"low temperature: {0}&#xb0;F at {1}".format(i.temperatureMin, temperatureMinTime))
                 precip=""
                 if i.precipProbability > 0:
                     precip+="chance of "+i.precipType
@@ -190,7 +194,6 @@ def daily(request, data=False):
                     precip+='No precipitation is expected '
                 formatter.append(precip)
                 formatter.append("It will be {0}: with a wind speed of approximately {1} mph.".format(weather.windy(i.windSpeed), i.windSpeed))
-                #It used to be that formatter was used as the format strings dictionarry for placing the daily forecast in before I converted it to a list.
                 forecasted.append(formatter)
             except  NameError as e:
                 forecasted.append("error retreiving current days wether.")
