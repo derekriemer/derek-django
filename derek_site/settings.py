@@ -42,7 +42,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'derekriemer.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '198.199.65.40']
 
 
 # Application definition
@@ -99,7 +99,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-STATIC_ROOT = "/home/derekriemer/derek-django/static"
+STATIC_ROOT = "/home/derek/static"
 
 STATIC_URL = '/static/'
 
