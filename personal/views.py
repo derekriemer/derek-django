@@ -49,7 +49,7 @@ def contact(request):
             message.body = form.cleaned_data["message"]
             if form.cleaned_data["copy_myself"]:
                 message.cc=[form.cleaned_data["sender"]]
-            message.send()
+            #message.send()
             return HttpResponseRedirect('/personal/thanks/')
         else:
         

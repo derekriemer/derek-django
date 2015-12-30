@@ -42,7 +42,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '198.199.65.40']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '198.199.65.40', 'derekriemer.com']
 
 
 # Application definition
