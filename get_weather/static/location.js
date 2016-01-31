@@ -1,5 +1,5 @@
 var a;
-    /*This file Copyright (C) Derek Riemer, 2015
+    /*This file Copyright (C) Derek Riemer, 2016
 	This file is part of my personal website.
 
 	my personal website is free software: you can redistribute it and/or modify
