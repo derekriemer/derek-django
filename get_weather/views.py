@@ -73,6 +73,22 @@ class Forecast:
             
             #Forecast.cashe=forecast
             #Forecast.cashe.time=datetime.datetime.now()
+            unit = forecast.json.get("flags")["units"]
+            if unit.lower() == 'us':
+                self.tm = "F"
+                self.windUnits = "MPH"
+            elif unit.lower() == 'si':
+                self.tm = "C"
+                self.windUnits = "M/S"
+            elif unit.lower() == "ca":
+                self.tm = "C"
+                self.windUnits = "Km/H"
+            elif unit.lower() == "uk2":
+                self.tm = "C"
+                self.windUnits = "MPH"
+            else:
+                print "Units are as follows.", units
+                self.tm, self.windUnits = "Error", "Error"
         return forecast
 
 
@@ -113,6 +129,7 @@ def forecast(request):
         elif page=="hourly":
             return hourly(request, True)
         elif page=="daily":
+            print "hog"
             return daily(request, True)
         else:
             return Http404("error, bad post request!")
@@ -123,6 +140,7 @@ def hourly(request, data=False):
         idNum=makeIds()
         weather=Forecast()
         forecast=weather.loadForecast(request)
+        tempUnits = weather.tm
         hourly=forecast.hourly()
         hourData = []
         for i in hourly.data[:24]:
@@ -135,6 +153,7 @@ def hourly(request, data=False):
                 "precip": (i.precipProbability*100)
             })
         context['forecasted'] = hourData
+        context['tempUnits'] = tempUnits
         return render(request, 'get_weather/hourly_forecast.htpartial', context)
     else:
         return render(request, 'get_weather/hourly.htm', context)
@@ -147,8 +166,9 @@ def index(request, data=False): #data will make sure that this gets location or 
         curLst = []
         weather=Forecast()
         forecast = weather.loadForecast(request)
+        tm = weather.tm
         current=forecast.currently()
-        curLst .append(u"It is currently {0} and {1}&#xb0; F".format(current.summary, int(current.temperature)))
+        curLst .append(u"It is currently {0} and {1}&#xb0; {2}".format(current.summary, int(current.temperature), tm))
         day=forecast.daily()
         today=day.data[0]
         curLst.append(u"Today: {0}".format(today.summary))
@@ -158,10 +178,10 @@ def index(request, data=False): #data will make sure that this gets location or 
             curLst.append(u"No precipitation expected today.")
         
         highTime= getJavascriptTag(today.temperatureMaxTime, "high_1")
-        curLst.append(u"daily high {0}&#xb0; F at {1}".format(today.temperatureMax, highTime))
+        curLst.append(u"daily high {0}&#xb0; {1} at {2}".format(today.temperatureMax, tm, highTime))
         lowTime=getJavascriptTag(today.temperatureMinTime, "low_1")
-        curLst.append(u"daily low {0}&#xb0; at {1}".format(today.temperatureMin, lowTime))
-        curLst.append(u"It is {0}, the wind speed is {1} mph".format(weather.windy(today.windSpeed), today.windSpeed))
+        curLst.append(u"daily low {0}&#xb0;{1} at {2}".format(today.temperatureMin, tm, lowTime))
+        curLst.append(u"It is {0}, the wind speed is {1} {2}".format(weather.windy(today.windSpeed), today.windSpeed, weather.windUnits))
         context['curLst'] = curLst
         return render(request, 'get_weather/current_forecast.htpartial', context)
     else:
@@ -173,6 +193,7 @@ def daily(request, data=False):
     if data==True:
         weather = Forecast()
         forecast=weather.loadForecast(request)
+        tm=weather.tm
         daily = forecast.daily()
         W_DAYS = ['Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday']
         forecasted=[]
@@ -184,8 +205,8 @@ def daily(request, data=False):
                 a=str(next(idNum))
                 temperatureMaxTime = getJavascriptTag(i.temperatureMaxTime, "maxt_"+a)
                 temperatureMinTime = getJavascriptTag(i.temperatureMinTime, "mint_"+str(a))
-                formatter.append(u"high temperature: {0}&#xb0;F at {1}".format(i.temperatureMax, temperatureMaxTime))
-                formatter.append(u"low temperature: {0}&#xb0;F at {1}".format(i.temperatureMin, temperatureMinTime))
+                formatter.append(u"high temperature: {0}&#xb0;{1} at {2}".format(i.temperatureMax, tm, temperatureMaxTime))
+                formatter.append(u"low temperature: {0}&#xb0;{1} at {2}".format(i.temperatureMin, tm, temperatureMinTime))
                 precip=""
                 if i.precipProbability > 0:
                     precip+="chance of "+i.precipType
@@ -193,11 +214,14 @@ def daily(request, data=False):
                 else:
                     precip+='No precipitation is expected '
                 formatter.append(precip)
-                formatter.append("It will be {0}: with a wind speed of approximately {1} mph.".format(weather.windy(i.windSpeed), i.windSpeed))
+                formatter.append("It will be {0}: with a wind speed of approximately {1} {2}.".format(weather.windy(i.windSpeed), i.windSpeed, weather.windUnits))
+                print "foo"
                 forecasted.append(formatter)
             except  NameError as e:
                 forecasted.append("error retreiving current days wether.")
+                print e.message
         context['forecasted']= forecasted
+        print "context"
         return render(request, 'get_weather/daily_forecast.htpartial', context)
     else:
         return render(request, 'get_weather/daily.htm', context)

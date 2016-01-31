@@ -30,6 +30,7 @@ function fillTable(){
 }
 
 fillTable();
+var tempUnits = "{{tempUnits}}";
 </script>
 
 <div class="row">
@@ -44,7 +45,7 @@ fillTable();
 </tr>
 {% endif %}
 <tr>
-<th class="selected"><h2>{{i.tag|safe}}</h2></th><td>{{i.temp|floatformat:0}}&#176;F</td><td>{{i.precip|floatformat:0}}%</td>
+<th class="selected"><h2>{{i.tag|safe}}</h2></th><td>{{i.temp|floatformat:0}}&#176;{{tempUnits}}</td><td>{{i.precip|floatformat:0}}%</td>
 </tr>
 {% if forloop.last %}
 </table>

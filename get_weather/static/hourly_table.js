@@ -12,7 +12,8 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with my personal website.  If not, see <http://www.gnu.org/licenses/>.*/
+    along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
+*/
 assending= [true, 0]; // be sure this is pointing at the right column. Currently it points at hourly.
 function makeTable(col){
     if(assending[1] != col){
@@ -45,7 +46,7 @@ function makeTable(col){
     for(var e = 0; e < new_table.length; e++){
         i = new_table[e];
         new_string+="<tr>";
-        new_string+="<th>"+i[0][1]+"</th><td>"+i[1]+"&#176;F</td><td>"+i[2]+"%</td></tr>";
+        new_string+="<th>"+i[0][1]+"</th><td>"+i[1]+"&#176;"+tempUnits+"</td><td>"+i[2]+"%</td></tr>";
     }
     $("#dynamic_table_hourly_forecast").html(new_string)
     fillTable();
@@ -53,5 +54,5 @@ function makeTable(col){
     new_string="Table sorted by ";
     new_string+=assending[0] ? "assending " : "decending ";
     new_string += ["hour","temperature","precipitation"][assending[1]];
-    $("#statusbar").html(new_string);
+    $("#statusbar").html(new_string); //Announce the update to screen reader users who visually can't see the red cells appear.
 }
