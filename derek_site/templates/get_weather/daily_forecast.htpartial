@@ -21,10 +21,10 @@
 {% for weatherItem  in day %}
 {% if forloop.counter == 1 %}
 <div style="margin-right:20px;" class="col-xs-3">
-<h2>{{weatherItem}}</small></h2>
+<h2>{{weatherItem}}</h2>
 </div>
 <div class="col-xs-9">
-<ul>
+<ul class="list-unstyled">
 {% else %}
 <li>{{weatherItem|safe}}</li>
 {% endif %}
