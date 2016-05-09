@@ -18,6 +18,6 @@ from django.conf.urls import patterns, url
 from tipOfTheDay import views
 
 urlpatterns = patterns('',
-    url(r'^/?$', views.index, name='display'),
+    url(r'^$', views.index, name='display'),
     url(r'^tip/?$', views.tip, name='tip'),    url(r'^json/?$', views.getJSON, name='json'),    url(r'^fu/?$', views.putJson, name='fu'),    url(r'^delete/?$', views.delete, name='delete'),
 )
