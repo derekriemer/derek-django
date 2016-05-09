@@ -9,7 +9,7 @@ LEVEL_CHOICES = [
 ]
 
 class Tip(models.Model):
-	title = models.CharField(max_length=30, help_text = "The title of the tip. Keep it short.")
+	title = models.CharField(max_length=255, help_text = "The title of the tip. Keep it short.")
 	level = models.PositiveSmallIntegerField(choices = LEVEL_CHOICES, help_text = "This is how familiar with windows the user should be when seeing this tip. Please note that this is <em> Not </em> how familiar the user is with NVDA.")
 	text = models.TextField(help_text = "Write the tip here.")
 	

@@ -51,6 +51,7 @@ function deleteConfirm(){
 				<div id="top" class="form-group">
 {% for field in form %}
 					<div class="col-xs-2 col-xs-offset-1">
+						<p> {{field.help_text|safe}}</p>
 						<label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
 						{{ field }}
 					</div>
