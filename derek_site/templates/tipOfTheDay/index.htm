@@ -1,0 +1,35 @@
+{% extends "tipOfTheDay/base.htm" %}
+{% comment %}
+	This file Copyright (C) Derek Riemer, 2016
+	This file is part of my personal website.
+
+	my personal website is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The code of my personal website is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+
+{% block title %}Tips List{% endblock %}
+{% block header %}Tips List{% endblock %}
+{% block main %}
+<div id="buttons">
+<a class="col-xs-1 btn btn-default" role="button" href="{%url 'tipOfTheDay:tip' %}"> Add a Tip!</a>
+</div>
+<div id="list" class="row">
+<ul class="list-unstyled">
+{% for i in tips %}
+<li> <a href="{% url 'tipOfTheDay:tip' %}?pk={{i.pk}}">{{i.title}}</a></li>
+{% empty %}
+<li>No tips.</li>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}

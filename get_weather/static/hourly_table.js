@@ -16,17 +16,16 @@
 */
 assending= [true, 0]; // be sure this is pointing at the right column. Currently it points at hourly.
 function makeTable(col){
-    if(assending[1] != col){
-        assending = [false, col];
+    if(assending[1] != col){        assending = (col == 0 ? [true, col] : [false, col]);
     }
     else
     {
         assending[0] = ! assending[0];
     }
     var new_table= table.sort(function(a,b){
-        if(assending[0]){
+        if(assending[0]){ // Ascending[0] is the actual whether we are ascending or decending mode. 
             switch(assending[1]){
-                case 0:
+                case 0: // col 0 has a relative hour index, and the ID to produce..
                     return a[0][0]-b[0][0];
                 default:
                     return a[assending[1]]-b[assending[1]];
@@ -46,7 +45,7 @@ function makeTable(col){
     for(var e = 0; e < new_table.length; e++){
         i = new_table[e];
         new_string+="<tr>";
-        new_string+="<th>"+i[0][1]+"</th><td>"+i[1]+"&#176;"+tempUnits+"</td><td>"+i[2]+"%</td></tr>";
+        new_string+="<th><h2>"+i[0][1]+"</h2></th>"; //i[0] hourly, [1] is the id to put here.]        new_string += "<td>"+i[1]+"&#176;"+tempUnits+"</td>"        new_string += "<td>"+i[2]+"%</td></tr>";
     }
     $("#dynamic_table_hourly_forecast").html(new_string)
     fillTable();

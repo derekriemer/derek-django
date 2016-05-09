@@ -55,7 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'get_weather',
-    'personal',
+    'personal',    'tipOfTheDay',
 )
 
 MIDDLEWARE_CLASSES = (

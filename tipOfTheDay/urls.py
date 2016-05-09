@@ -13,13 +13,11 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with my personal website.  If not, see <http://www.gnu.org/licenses/>."""
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
-from django.http import HttpResponsefrom django.contrib.auth import views as auth_views
-from derek_site import views
+from django.conf.urls import patterns, url
+
+from tipOfTheDay import views
+
 urlpatterns = patterns('',
-    url(r'^weather/', include('get_weather.urls', namespace='weather')),
-    url(r'^personal/', include('personal.urls', namespace='personal')),    url(r'^accounts/', include('django.contrib.auth.urls')),    url(r'^tipOfTheDay/', include('tipOfTheDay.urls', namespace='tipOfTheDay')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^/?$', views.index, name='display'),
+    url(r'^tip/?$', views.tip, name='tip'),    url(r'^json/?$', views.getJSON, name='json'),    url(r'^fu/?$', views.putJson, name='fu'),    url(r'^delete/?$', views.delete, name='delete'),
 )
-handler404 = 'derek_site.views.error404'

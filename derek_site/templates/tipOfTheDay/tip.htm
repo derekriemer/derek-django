@@ -1,0 +1,67 @@
+{% extends "tipOfTheDay/base.htm" %}
+{% block title %}Add or Edit a Tip{% endblock %}
+{% block other %}
+<script>
+	function deleteSend(){
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}"); //Hard coding it here is perfectly fine.
+			}
+		});
+		$.post("delete",
+		{
+			pk :{{pk}}
+		},
+		function(data, status){
+			console.log(status);
+			document.write(data);
+		});
+}
+function deleteConfirm(){
+	var i = confirm("Are you really sure you want to delete {{title}}? This action cannot be undone.");
+	if(i)
+		deleteSend();
+	else
+		return;
+}
+</script>
+{% endblock %}
+{% block header %}Add or Edit a Tip{% endblock %}
+{% block main %}
+{% if errors %}
+<div id="errors" role="region" class="row">
+<h2 class="col-nd-1" id="init-focus"> Errors: Please fix all errors in the list below, and try to resubmit the form. </h2>
+<ul class="col-nd-1">
+{% for field in form %}
+{% for i in field.errors %}
+<li> <a href="#{{field.id_for_label}}">{{field.label}}: {{i}}</a></li>
+{% empty %}
+
+{% endfor %}
+
+{% endfor %}
+</ul>
+<h2 class="col-nd-1"> Form: This is the form where one or more errors exist.</h2>
+</div>
+{% endif %}
+
+<form method="post" action="{% url send_to_url %}" {{other_attrs|safe}} class="form-horizontal">
+{% csrf_token %}
+<input type="hidden" name="pk" value="{{pk}}"/>
+				<div id="top" class="form-group">
+{% for field in form %}
+					<div class="col-xs-2 col-xs-offset-1">
+						<label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label>
+						{{ field }}
+					</div>
+{% endfor %}
+</div>
+<input type="submit"/>
+</form>
+<button onclick="deleteConfirm();" id="delete">Delete this tip (action cannot be undone)</button>
+{% if errors %}
+<script>
+$("document").ready(function(){document.getElementById('init-focus').focus();});
+</script>
+{% endif %}
+{% endblock %}

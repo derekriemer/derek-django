@@ -19,7 +19,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Login</title>
+<title>{% block title %}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8"/>
 <!-- Latest compiled and minified CSS -->
@@ -64,12 +64,20 @@ td, th {
 {% block dialogs %}
 {% endblock %}
 <body>
-
-<div class="page-header">
-<h1 id="login-header" tabindex="-1">Please Login</h1>
+	<header role="banner" aria-label="User Info">
+<h2 id="user-name">Hello {{user}} </h2>
+      {% if user.is_anonymous %}
+      <a href="{% url 'django.contrib.auth.views.login' %}">login</a>
+      {% else %}
+      <a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
+      {% endif %}
+    </header>
+	<div class="page-header">
+<h1 id="header-default" tabindex="-1">{% block header %}{% endblock %}</h1>
 </div>
 <main role="main" id="main" class="container-fluid">
-<a href="{% url 'login' %}"> Login now!</a>
+{% block main %}
+{% endblock %}
 </main>
 <footer class="container-fluid" id="footer">
 {% block footer %}
@@ -79,7 +87,7 @@ td, th {
 This website is Copyright &copy; Derek Riemer 2016. Any attribution should be made to Derek Riemer, and the Django project if necessary. 
 Django is an open sourced project run by the Django Foundation &trade;. More info can be found 
 <a target="_blank" href="https://www.djangoproject.com/"> At the Django website</a>.
- licensed <a target="_blank" href="https://gnu.org/licenses/agpl-3.0-standalone.html">GNU Affero General Public License 3</a> (or at your discretion, any later version). 
+ This weather app and the assosiated django project is licensed <a target="_blank" href="https://gnu.org/licenses/agpl-3.0-standalone.html">GNU Affero General Public License 3</a> (or at your discretion, any later version). 
  The code of my personal website is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the

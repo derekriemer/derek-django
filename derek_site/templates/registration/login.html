@@ -1,8 +1,75 @@
-{% extends "derek_site/base.htm" %}
-{% block title %}Login{% endblock %}
-{% block header %}Login{% endblock %}
-{% block main %}
+{% comment %}
+	This file Copyright (C) Derek Riemer, 2016
 
+	This file is part of my personal website.
+
+	my personal website is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	The code of my personal website is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with my personal website.  If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+<!DOCTYPE html>
+<html>
+<head>
+<title> Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="/static/jquery-1.11.3.min.js"> </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+{% block other %} {% endblock %}
+{% block other-2 %} {% endblock %}
+{% comment %}
+If you wish to include contents such as the location,or a csrf_token, do this in block other. If you wish to include a custom set of files that only pertain to this page, do it in the block files. 
+{% endcomment %}
+{% block files %}
+
+{% endblock %}
+{% comment %}
+Put all css stuff in css, and override if necessary with the overrideStandardCss block.
+{% endcomment %}
+<style>
+{% block css %}
+{% endblock %}
+{% block overrideStandardCss %}
+{% verbatim %}
+
+body{
+    margin : 50px;
+}
+
+td, th {
+    text-align:center;
+    border:1px;
+}
+{% endverbatim %}
+{% endblock %}
+</style>
+
+</head>
+{% block dialogs %}
+{% endblock %}
+<body>
+
+<div class="page-header">
+<h1 id="login-header" tabindex="-1">Please Login</h1>
+</div>
+<main role="main" id="main" class="container-fluid">
+<p> You must login to see the contents of the page. "{{next}}"</p>
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -16,7 +83,7 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
+<form method="post" action="{% url 'login' %}" class="form-horizontal">
 {% csrf_token %}
 <table>
 <tr>
@@ -36,4 +103,25 @@
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p> 
 
-{% endblock %}
+</main>
+<footer class="container-fluid" id="footer">
+{% block footer %}
+{% endblock %}<hr/>
+<p>This project is powered by Django, an awesome 
+<a target="_blank" href="http://www.python.org">python powered</a> web framework that makes developing applications like this easier. 
+This website is Copyright &copy; Derek Riemer 2016. Any attribution should be made to Derek Riemer, and the Django project if necessary. 
+Django is an open sourced project run by the Django Foundation &trade;. More info can be found 
+<a target="_blank" href="https://www.djangoproject.com/"> At the Django website</a>.
+ licensed <a target="_blank" href="https://gnu.org/licenses/agpl-3.0-standalone.html">GNU Affero General Public License 3</a> (or at your discretion, any later version). 
+ The code of my personal website is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.  </p>
+    <p>
+The source code for this program can be found at 
+<a target="_blank" href="https://github.com/derekriemer/derek-django">at Github</a>. 
+Please see the instructions for copying in the source code before redistribution. 
+</footer>
+
+</body>
+</html>

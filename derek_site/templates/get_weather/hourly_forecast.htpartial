@@ -19,7 +19,7 @@
 {% for i in forecasted %}
 {% if forloop.first %}var table = [{% endif %}
 [[{{forloop.counter|add:-1}}, '{{i.tag|safe}}'], {{i.temp|floatformat:0}}, {{i.precip|floatformat:0}}]
-{% if forloop.last %}];{% else %},{% endif %}
+{% if forloop.last %} ];{% else %},{% endif %}
 {% empty %}var nothing = true;
 {% endfor %}
 
@@ -39,9 +39,9 @@ var tempUnits = "{{tempUnits}}";
 <a href="javascript:void(0);" onclick='alert("Click the columns to sort the table. For example, If you click the precipitation column, it will first sort the table in decending order of precip, which means that the hour with the highest precipitation value will move to row 1. Click  the column again to make that column sort assending. The hourly column starts out being the selected column, and it is sorted assending by default. If you click a new column, it will automatically start out sorted decending, such that the highest valued thing comes first.")'>Explain table </a>
 <table  id="dynamic_table_hourly_forecast">
 <tr>
-<th class="selected"> <h2><a href ="javascript:void(0)" onclick="makeTable(0)" aria-selected="true">Hour:</a></h2></th>
-<th> <a href ="javascript:void(0)" onclick="makeTable(1)">Temperature:</a></th>
-<th> <a href ="javascript:void(0)" onclick="makeTable(2)">Chance of precip:</a></th>
+<th scope = "col" class="selected" aria-selected="true"> <h2><a href ="javascript:void(0)" onclick="makeTable(0)">Hour: <span class="sr-specific"> selected</span></a></h2></th>
+<th scope="col" > <a href ="javascript:void(0)" onclick="makeTable(1)">Temperature:</a></th>
+<th scope="col"> <a href ="javascript:void(0)" onclick="makeTable(2)">Chance of precip:</a></th>
 </tr>
 {% endif %}
 <tr>

@@ -16,7 +16,6 @@ var address="";
     if(!haveLocation) return;
         var geocoder = new maps.Geocoder();
         var geo=geocoder.geocode({location:latLng}, function(results, status){
-            console.log(status);
             if(status == maps.GeocoderStatus.OK){
                 address = results[0].formatted_address;
                 $("#address").text(address);
