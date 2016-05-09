@@ -29,14 +29,15 @@ class Tip(models.Model):
 
 	def getTruncatedText(self):
 		index=50
+		count = 0
 		length = len(self.text)
 		while index < length:
-			if self.text[index] != ' ':
-				index+=1
-			else:
+			if self.text[index] == ' ':
+				count+=1
+			if count >= 50:
 				break
-		st=self.text[:index]
-		if index < len(self.text):
+		st=self.text[:count]
+		if count < len(self.text):
 			st+="..."
 		return st
 	
