@@ -34,6 +34,7 @@ class Tip(models.Model):
 		while index < length:
 			if self.text[index] == ' ':
 				count+=1
+			index += 1
 			if count >= 50:
 				break
 		st=self.text[:count]
