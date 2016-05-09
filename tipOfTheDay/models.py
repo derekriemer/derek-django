@@ -28,7 +28,7 @@ class Tip(models.Model):
 		return levels
 
 	def getTruncatedText(self):
-		index=50
+		index=0
 		count = 0
 		length = len(self.text)
 		while index < length:
@@ -37,7 +37,7 @@ class Tip(models.Model):
 			index += 1
 			if count >= 50:
 				break
-		st=self.text[:count]
+		st=self.text[:index]
 		if count < len(self.text):
 			st+="..."
 		return st
