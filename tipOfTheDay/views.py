@@ -81,7 +81,7 @@ def tip(request):
 				form.save()
 			return HttpResponseRedirect('/tipOfTheDay/')
 		else:
-			context.update({'form': form, 'errors': True})
+			context.update({'form': form, 'errors': True, 'pk' : int(request.POST["pk"])})
 	else:
 		try:
 			pk = request.GET['pk']

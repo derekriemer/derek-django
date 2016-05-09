@@ -58,7 +58,9 @@ function deleteConfirm(){
 </div>
 <input type="submit"/>
 </form>
+{% if pk != 0 %}
 <button onclick="deleteConfirm();" id="delete">Delete this tip (action cannot be undone)</button>
+{% endif %}
 {% if errors %}
 <script>
 $("document").ready(function(){document.getElementById('init-focus').focus();});
