@@ -18,18 +18,69 @@
 {% endcomment %}
 
 {% block title %}Tips List{% endblock %}
+{% block other %}
+<script>
+	function deleteSend(pk){
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}"); //Hard coding it here is perfectly fine.
+			}
+		});
+		$.post("delete",
+		{
+			pk :pk
+		},
+		function(data, status){
+			console.log(status);
+			if(status == "success"){
+				alert(data);
+				document.getElementById("row"+pk).remove();
+			}
+		});
+}
+function deleteConfirm(title, pk){
+	var i = confirm("Are you really sure you want to delete "+title+"? This action cannot be undone.");
+	if(i)
+		deleteSend(pk);
+	else
+		return;
+}
+</script>
+{% endblock %}
 {% block header %}Tips List{% endblock %}
 {% block main %}
 <div id="buttons">
 <a class="col-xs-1 btn btn-default" role="button" href="{%url 'tipOfTheDay:tip' %}"> Add a Tip!</a>
 </div>
 <div id="list" class="row">
-<ul class="list-unstyled">
+<table>
+<caption> Tips and there attributes.</caption>
+<thead>
+<tr>
+<th scope="col"> Title</th>
+<th scope="col"> Levels</th>
+<th scope="col"> Weight</th>
+<th scope="col"> First Fifty Words of Text</th>
+</tr>
+</thead>
+<tbody>
 {% for i in tips %}
-<li> <a href="{% url 'tipOfTheDay:tip' %}?pk={{i.pk}}">{{i.title}}</a></li>
+<tr id="row{{i.id}}">
+<th scope="row" id="tbl-{{i.id}}">{{i.title}}</th>
+<td>{{ i.getLevelList|join:", " }}</td>
+<td>{{i.weight}}</td>
+<td>{{i.getTruncatedText}}</td>
+<td>
+	<ul>
+		<li><a class="btn btn-default" role="button" href="{% url 'tipOfTheDay:tip' %}?pk={{i.pk}}"> Edit Tip</a> </li>
+		<li> <button onclick="deleteConfirm('{{i.title}}', {{i.pk}});"> Delete Tip</button></li>
+	</ul>
+</td>
+</tr>
 {% empty %}
-<li>No tips.</li>
+No tips.
 {% endfor %}
-</ul>
+</tbody>
+</table>
 </div>
 {% endblock %}

@@ -1,31 +1,6 @@
 {% extends "tipOfTheDay/base.htm" %}
 {% block title %}Add or Edit a Tip{% endblock %}
-{% block other %}
-<script>
-	function deleteSend(){
-		$.ajaxSetup({
-			beforeSend: function(xhr, settings) {
-				xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}"); //Hard coding it here is perfectly fine.
-			}
-		});
-		$.post("delete",
-		{
-			pk :{{pk}}
-		},
-		function(data, status){
-			console.log(status);
-			document.write(data);
-		});
-}
-function deleteConfirm(){
-	var i = confirm("Are you really sure you want to delete {{title}}? This action cannot be undone.");
-	if(i)
-		deleteSend();
-	else
-		return;
-}
-</script>
-{% endblock %}
+
 {% block header %}Add or Edit a Tip{% endblock %}
 {% block main %}
 {% if errors %}
@@ -59,9 +34,6 @@ function deleteConfirm(){
 </div>
 <input type="submit"/>
 </form>
-{% if pk != 0 %}
-<button onclick="deleteConfirm();" id="delete">Delete this tip (action cannot be undone)</button>
-{% endif %}
 {% if errors %}
 <script>
 $("document").ready(function(){document.getElementById('init-focus').focus();});

@@ -17,6 +17,7 @@ TIP_NAME_TO_NUM = {
 
 def addData(file):
 	info =  json.load(file, object_pairs_hook = OrderedDict)
+	count = 1 #The user would probably rather have 1:n rather than 0:n-1
 	for title, dict in info["tips"].items():
 		tip = Tip()
 		tip.title = title
@@ -24,6 +25,8 @@ def addData(file):
 		tip.level = 0
 		for i in dict["level"]:
 			tip.level |= TIP_NAME_TO_NUM[i]
+		tip.weight = count
+		count += 1
 		tip.save()
 		
 
@@ -33,7 +36,6 @@ def index(request):
 	context = {"tips": tips}
 	return render(request, 'tipOfTheDay/index.htm', context)
 
-@login_required
 def getJSON(request):
 	context = {}
 	jsonObj = OrderedDict([
@@ -76,6 +78,7 @@ def tip(request):
 				tip.title = form.cleaned_data["title"]
 				tip.level = form.cleaned_data["level"]
 				tip.text = form.cleaned_data["text"]
+				tip.weight = form.cleaned_data["weight"]
 				tip.save()
 			else:
 				form.save()
@@ -106,11 +109,11 @@ def delete(request):
 			return Http404
 		try:
 			pk = Tip.objects.get(pk=pk)
+			title = pk.title
 			print pk
 			pk.delete()
-			return HttpResponseRedirect("/tipOfTheDay/")
+			return HttpResponse("deleted {}".format(title))
 		except ObjectDoesNotExist:
 			raise Http404
 	else:
 		raise Http404
-	return self.index(request)

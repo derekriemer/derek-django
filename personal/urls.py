@@ -18,7 +18,7 @@ from django.conf.urls import patterns, url
 from personal import views
 
 urlpatterns = patterns('',
-    url(r'^/?$', views.index, name='home'),
+    url(r'^$', views.index, name='home'),
     url(r'^bio/?$', views.bio, name='bio'),
     url(r'^contact/?$', views.contact, name='contact'),
     url(r'^thanks/?$', views.thanks, name='thanks'),
