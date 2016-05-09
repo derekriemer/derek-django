@@ -15,7 +15,6 @@ TIP_NAME_TO_NUM = {
 	"advanced" : 4,
 }
 
-@login_required
 def addData(file):
 	info =  json.load(file, object_pairs_hook = OrderedDict)
 	for title, dict in info["tips"].items():
