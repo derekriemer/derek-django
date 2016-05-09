@@ -4,16 +4,14 @@
 {% block header %}Add or Edit a Tip{% endblock %}
 {% block main %}
 {% if errors %}
-<div id="errors" role="region" aria-labelledby="init-focus" class="row">
-<h2 class="col-nd-1" id="init-focus" tabindex="-1" autofocus> Errors: Please fix all errors in the list below, and try to resubmit the form. </h2>
+<div id="errors"  role="region" aria-labelledby="init-focus" class="row">
+<h2 class="col-nd-1" id="init-focus" tabindex="0"> Errors:</h2>
+<p>Please fix all errors in the list below, and try to resubmit the form. </p>
 <ul class="col-nd-1">
 {% for field in form %}
 {% for i in field.errors %}
 <li> <a href="#{{field.id_for_label}}">{{field.label}}: {{i}}</a></li>
-{% empty %}
-
 {% endfor %}
-
 {% endfor %}
 </ul>
 <h2 class="col-nd-1"> Form: This is the form where one or more errors exist.</h2>
@@ -37,7 +35,10 @@
 
 <script>
 {% if errors %}
-$("document").ready(function(){document.getElementById('init-focus').focus();});
+$("document").ready(function(){
+var item = $("#init-focus");
+item.focus();
+});
 {% else %}
 $("document").ready(function(){
 	var title = document.getElementById('id_title');
