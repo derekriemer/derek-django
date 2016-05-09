@@ -4,8 +4,8 @@
 {% block header %}Add or Edit a Tip{% endblock %}
 {% block main %}
 {% if errors %}
-<div id="errors" role="region" class="row">
-<h2 class="col-nd-1" id="init-focus"> Errors: Please fix all errors in the list below, and try to resubmit the form. </h2>
+<div id="errors" role="region" aria-labelledby="init-focus" class="row">
+<h2 class="col-nd-1" id="init-focus" tabindex="-1" autofocus> Errors: Please fix all errors in the list below, and try to resubmit the form. </h2>
 <ul class="col-nd-1">
 {% for field in form %}
 {% for i in field.errors %}
