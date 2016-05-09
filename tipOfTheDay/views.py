@@ -1,5 +1,6 @@
 import json
 from collections import OrderedDict
+from threading import Thread
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
@@ -94,7 +95,9 @@ def tip(request):
 			context["title"] = tip.title
 			context["form"] = form
 		except (KeyError, ObjectDoesNotExist):
-			form = TipForm()
+			tip = Tip()
+			tip.weight = Tip.objects.count()+1
+			form = TipForm(instance = tip)
 			context.update({"form" : form, "pk" : 0})
 	return render(request, 'tipOfTheDay/tip.htm', context)
 
@@ -110,8 +113,14 @@ def delete(request):
 		try:
 			pk = Tip.objects.get(pk=pk)
 			title = pk.title
-			print pk
+			weight = pk.weight
 			pk.delete()
+			#lower the weight of all the tips greater than this one.
+			def thread_helper():
+				for i in Tip.objects.filter(weight__gt = weight):
+					i.weight -= 1
+					i.save()
+			Thread(target=thread_helper).start()
 			return HttpResponse("deleted {}".format(title))
 		except ObjectDoesNotExist:
 			raise Http404

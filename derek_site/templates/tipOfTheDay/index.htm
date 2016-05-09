@@ -49,8 +49,11 @@ function deleteConfirm(title, pk){
 {% endblock %}
 {% block header %}Tips List{% endblock %}
 {% block main %}
-<div id="buttons">
+<div id="buttons" class="row">
+<div class="col-xs-1">
 <a class="col-xs-1 btn btn-default" role="button" href="{%url 'tipOfTheDay:tip' %}"> Add a Tip!</a>
+</div>
+<div class="col-xs-1"></div>
 <a target ="_blank" class="col-xs-1 btn btn-default" role="button" href="{%url 'tipOfTheDay:json' %}"> View the JSON in a new tab!</a>
 </div>
 <div id="list" class="row">

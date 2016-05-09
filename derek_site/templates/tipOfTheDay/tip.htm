@@ -34,9 +34,15 @@
 </div>
 <input type="submit"/>
 </form>
-{% if errors %}
+
 <script>
+{% if errors %}
 $("document").ready(function(){document.getElementById('init-focus').focus();});
-</script>
+{% else %}
+$("document").ready(function(){
+	var title = document.getElementById('id_title');
+	title.setAttribute("autofocus");
+});
 {% endif %}
+</script>
 {% endblock %}
